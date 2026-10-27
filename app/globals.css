@@ -88,6 +88,7 @@ button:disabled { opacity: 0.6; cursor: progress; }
 .check input { accent-color: var(--maroon); width: 18px; height: 18px; }
 
 .ai-panel { display: grid; gap: 12px; background: linear-gradient(135deg, #fff8f2, #faeedd); border: 1px solid var(--gold-soft); border-radius: 16px; padding: 16px; }
+.uploaded-couple-preview { width: 100%; max-height: 180px; object-fit: contain; object-position: left center; border-radius: 12px; }
 .art-strip { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 8px; }
 .art-strip button { flex: none; width: 84px; border: 2px solid transparent; border-radius: 12px; padding: 0; background: none; }
 .art-strip button img { width: 100%; aspect-ratio: 9 / 16; object-fit: cover; border-radius: 10px; }

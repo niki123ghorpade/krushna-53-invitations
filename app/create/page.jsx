@@ -12,6 +12,7 @@ import { loadImage, renderStill } from "@/lib/renderer";
 import { encodeShare, fileToDataUrl, uploadImage } from "@/lib/share";
 import { findTemplate, templateDesign } from "@/lib/templates";
 import { saveUserTemplateRecord } from "@/lib/user-templates";
+import { illustratedPhoto } from "@/lib/illustrated-photo";
 const FRAMES = [
     { id: "toran", label: "Marigold toran" }, { id: "mandap", label: "Mandap" }, { id: "floral-corners", label: "Floral corners" },
     { id: "double-border", label: "Royal border" }, { id: "arch", label: "Mughal arch" }, { id: "jharokha", label: "Jharokha" }, { id: "none", label: "No frame" },
@@ -199,6 +200,14 @@ export default function CreatePage() {
         setArts((a) => [item, ...a].slice(0, 12));
         applyArt(item);
         uploadImage(src).then((url) => url && setArts((all) => all.map((x) => (x.src === src ? { ...x, shareUrl: url } : x))));
+    }
+    async function uploadCouplePhoto(file) {
+        if (!file || !file.type.startsWith("image/"))
+            return;
+        const resized = await fileToDataUrl(file, 1080, 1920, 0.85);
+        const illustrated = await illustratedPhoto(resized);
+        setDetails((d) => ({ ...d, couplePhoto: illustrated, couplePhotoPosition: d.couplePhotoPosition ?? "top" }));
+        updateDesign({ showPhoto: true });
     }
     function saveAsTemplate() {
         const name = customTemplateName.trim();
@@ -406,6 +415,15 @@ export default function CreatePage() {
             <div className="fields two">
               <label className="field">BRIDE<input maxLength={40} value={details.brideName} onChange={(e) => updateDetails("brideName", e.target.value)}/></label>
               <label className="field">GROOM<input maxLength={40} value={details.groomName} onChange={(e) => updateDetails("groomName", e.target.value)}/></label>
+            </div>
+            <div className="ai-panel">
+              <label className="field">ADD A COUPLE PHOTO TO THIS DESIGN<input type="file" accept="image/*" onChange={(e) => void uploadCouplePhoto(e.target.files?.[0])}/></label>
+              <p className="hint small">The photo gets a cartoon-style finish in your browser and appears larger in the selected template. Existing template artwork stays in place.</p>
+              {details.couplePhoto && <Segmented label="Photo position" value={details.couplePhotoPosition ?? "top"} onChange={(v) => updateDetails("couplePhotoPosition", v)} options={[{ id: "top", label: "Top" }, { id: "bottom", label: "Bottom" }]}/>}
+              {details.couplePhoto && <div className="fields two">
+                <img src={details.couplePhoto} alt="Cartoon-styled couple preview" className="uploaded-couple-preview"/>
+                <button type="button" className="button secondary" onClick={() => updateDetails("couplePhoto", undefined)}>Remove photo</button>
+              </div>}
             </div>
             <label className="field">NAMES IN YOUR LANGUAGE (OPTIONAL)<input maxLength={40} value={details.nativeNames ?? ""} onChange={(e) => updateDetails("nativeNames", e.target.value)} placeholder="e.g. आरोही संग रेयांश"/></label>
             <div className="fields two">
