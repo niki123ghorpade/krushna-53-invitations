@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
 import { SiteFooter, SiteHeader, readSavedDetails } from "@/components/ui";
+import HomeWeddingWebsitePromo from "@/components/HomeWeddingWebsitePromo";
 import { DEMO_DETAILS } from "@/lib/invite-design";
 const HomeFinder = dynamic(() => import("@/components/HomeFinder"), {
     ssr: false,
@@ -20,6 +21,8 @@ export default function Home() {
       </section>
 
       <HomeFinder details={details}/>
+
+      <HomeWeddingWebsitePromo />
 
       <SiteFooter />
     </main>);

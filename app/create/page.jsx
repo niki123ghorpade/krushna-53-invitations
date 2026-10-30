@@ -8,13 +8,20 @@ import { EVENT_ORDER, EVENT_PRESETS, DEMO_DETAILS, designForEvent, } from "@/lib
 import { generateMusic, musicStyleFor } from "@/lib/music";
 import { canvasToPdf } from "@/lib/pdf";
 import { loadImage, renderStill } from "@/lib/renderer";
-import { publishInvitation, invitationPoster, fileToDataUrl, uploadImage } from "@/lib/share";
+import { fileToDataUrl, uploadImage } from "@/lib/share";
 import { findTemplate, templateDesign } from "@/lib/templates";
 import { saveUserTemplateRecord } from "@/lib/user-templates";
 import SocialShareActions from "@/components/SocialShareActions";
 const FRAMES = [
     { id: "toran", label: "Marigold toran" }, { id: "mandap", label: "Mandap" }, { id: "floral-corners", label: "Floral corners" },
     { id: "double-border", label: "Royal border" }, { id: "arch", label: "Mughal arch" }, { id: "jharokha", label: "Jharokha" }, { id: "none", label: "No frame" },
+];
+const INTRO_ANIMATIONS = [
+    { id: "bloom", label: "Bloom" }, { id: "curtain", label: "Curtain reveal" }, { id: "petal-burst", label: "Petal burst" },
+    { id: "envelope", label: "Envelope opening" }, { id: "door", label: "Door opening" }, { id: "page-turn", label: "Page turn" },
+    { id: "fade", label: "Soft fade" }, { id: "zoom", label: "Zoom reveal" }, { id: "spotlight", label: "Spotlight" },
+    { id: "golden", label: "Golden shimmer" }, { id: "shutter", label: "Shutter reveal" }, { id: "heart", label: "Heart reveal" },
+    { id: "stars", label: "Star shower" },
 ];
 export default function CreatePage() {
     const [details, setDetails] = useState(() => ({ ...DEMO_DETAILS, brideName: "", groomName: "", date: "", venue: "", city: "" }));
@@ -30,8 +37,7 @@ export default function CreatePage() {
     const [music, setMusic] = useState(null);
     const [exporting, setExporting] = useState(null);
     const [exportError, setExportError] = useState("");
-    const [shareUrl, setShareUrl] = useState("");
-    const [shareBusy, setShareBusy] = useState(false);
+    const [downloadedFile, setDownloadedFile] = useState(null);
     const printJobRef = useRef(null);
     const [template, setTemplate] = useState(null);
     const [customTemplateName, setCustomTemplateName] = useState("");
@@ -42,7 +48,7 @@ export default function CreatePage() {
     const loaded = useRef(false);
     const images = useInviteImages(design, details);
     useEffect(() => () => printJobRef.current?.(), []);
-    useEffect(() => { setShareUrl(""); }, [musicChoice]);
+    useEffect(() => { setDownloadedFile(null); }, [musicChoice]);
     // restore draft
     useEffect(() => {
         try {
@@ -148,7 +154,7 @@ export default function CreatePage() {
         setRestartKey((k) => k + 1);
         invalidateShare();
     }
-    const invalidateShare = () => { setShareUrl(""); };
+    const invalidateShare = () => { setDownloadedFile(null); };
     const updateDetails = (k, v) => {
         setDetails((d) => ({ ...d, [k]: v }));
         setFieldErrors((errors) => { const next = { ...errors }; delete next[k]; return next; });
@@ -251,13 +257,19 @@ export default function CreatePage() {
         if (!validateRequiredDetails()) return;
         setExportError("");
         setFlowStatus("");
+        setDownloadedFile(null);
         setExporting(0);
         const ctrl = new AbortController();
         abortRef.current = ctrl;
+        let completed = false;
         try {
             const { exportInviteVideo } = await import("@/lib/export-video");
             const { blob, ext } = await exportInviteVideo(await getReadyRenderInput(), music, (p) => setExporting(p), { signal: ctrl.signal });
-            download(blob, `${details.brideName}-${details.groomName}-${design.event}.${ext}`.replace(/\s+/g, "-").toLowerCase());
+            const filename = `${details.brideName}-${details.groomName}-${design.event}.${ext}`.replace(/\s+/g, "-").toLowerCase();
+            download(blob, filename);
+            setDownloadedFile(new File([blob], filename, { type: blob.type || (ext === "mp4" ? "video/mp4" : "video/webm") }));
+            setExporting(1);
+            completed = true;
             setFlowStatus("Your invitation video has been downloaded.");
         }
         catch (e) {
@@ -265,20 +277,55 @@ export default function CreatePage() {
                 setExportError(e instanceof Error ? e.message : "Export failed");
         }
         finally {
-            setExporting(null);
+            if (completed) window.setTimeout(() => setExporting(null), 450);
+            else setExporting(null);
         }
     }
     async function downloadPng() {
         if (!validateRequiredDetails()) return;
-        const c = await renderStill(await getReadyRenderInput());
-        c.toBlob((b) => b && download(b, `${details.brideName}-${details.groomName}-${design.event}.png`.replace(/\s+/g, "-").toLowerCase()), "image/png");
-        setFlowStatus("Your invitation PNG has been downloaded.");
+        setExportError("");
+        setFlowStatus("");
+        setDownloadedFile(null);
+        setExporting(0);
+        let completed = false;
+        try {
+            const c = await renderStill(await getReadyRenderInput());
+            const blob = await new Promise((resolve, reject) => c.toBlob((image) => image ? resolve(image) : reject(new Error("Could not create the PNG. Please try again.")), "image/png"));
+            const filename = `${details.brideName}-${details.groomName}-${design.event}.png`.replace(/\s+/g, "-").toLowerCase();
+            download(blob, filename);
+            setDownloadedFile(new File([blob], filename, { type: "image/png" }));
+            setExporting(1);
+            completed = true;
+            setFlowStatus("Your invitation PNG has been downloaded.");
+        } catch (error) {
+            setExportError(error instanceof Error ? error.message : "Could not create the PNG. Please try again.");
+        } finally {
+            if (completed) window.setTimeout(() => setExporting(null), 450);
+            else setExporting(null);
+        }
     }
     async function downloadPdf() {
         if (!validateRequiredDetails()) return;
-        const c = await renderStill(await getReadyRenderInput());
-        download(await canvasToPdf(c), `${details.brideName}-${details.groomName}-${design.event}.pdf`.replace(/\s+/g, "-").toLowerCase());
-        setFlowStatus("Your invitation PDF has been downloaded.");
+        setExportError("");
+        setFlowStatus("");
+        setDownloadedFile(null);
+        setExporting(0);
+        let completed = false;
+        try {
+            const c = await renderStill(await getReadyRenderInput());
+            const blob = await canvasToPdf(c);
+            const filename = `${details.brideName}-${details.groomName}-${design.event}.pdf`.replace(/\s+/g, "-").toLowerCase();
+            download(blob, filename);
+            setDownloadedFile(new File([blob], filename, { type: "application/pdf" }));
+            setExporting(1);
+            completed = true;
+            setFlowStatus("Your invitation PDF has been downloaded.");
+        } catch (error) {
+            setExportError(error instanceof Error ? error.message : "Could not create the PDF. Please try again.");
+        } finally {
+            if (completed) window.setTimeout(() => setExporting(null), 450);
+            else setExporting(null);
+        }
     }
     async function printCard() {
         if (!validateRequiredDetails()) return;
@@ -307,42 +354,6 @@ export default function CreatePage() {
             document.body.appendChild(frame);
         } catch (error) {
             setExportError(error instanceof Error ? error.message : "Could not print the card. Please try again.");
-        }
-    }
-    async function createLink() {
-        if (!validateRequiredDetails()) return;
-        setShareBusy(true);
-        setShareUrl("");
-        setFlowStatus("");
-        try {
-            let shareDesign = design;
-            if (design.background.kind === "image") {
-                const bg = design.background;
-                const art = arts.find((a) => a.src === bg.src);
-                let url = art?.shareUrl ?? (bg.src.startsWith("data:") ? null : bg.src);
-                if (!url)
-                    url = (await uploadImage(bg.src)) ?? bg.src;
-                shareDesign = { ...design, background: { ...bg, src: url } };
-            }
-            let shareDetails = details;
-            if (details.couplePhoto && design.showPhoto) {
-                const url = await uploadImage(details.couplePhoto);
-                if (url)
-                    shareDetails = { ...details, couplePhoto: url };
-            }
-            else
-                shareDetails = { ...details, couplePhoto: undefined };
-            const payload = { v: 2, mode, design: shareDesign, details: shareDetails, music: musicChoice === "none" ? "none" : musicChoice === "calm" || musicChoice === "festive" ? musicChoice : musicStyleFor(design.event) };
-            const poster = await renderStill(await getReadyRenderInput(), 600);
-            const link = await publishInvitation(payload, invitationPoster(poster));
-            setShareUrl(link);
-            return link;
-        }
-        catch (e) {
-            setFlowStatus(e instanceof Error ? `Could not create the guest link: ${e.message}` : "Could not create the guest link. Please try again.");
-        }
-        finally {
-            setShareBusy(false);
         }
     }
     const eventArts = arts.filter((a) => a.event === design.event);
@@ -407,7 +418,7 @@ export default function CreatePage() {
             <header><span className="num">02</span><div><small>HOW SHOULD IT LOOK TO GUESTS?</small><h2>Animated or simple card</h2></div></header>
             <div className="mode-choice">
               <button type="button" className={mode === "video" ? "on" : ""} onClick={() => { setMode("video"); setPlaying(true); setRestartKey((k) => k + 1); invalidateShare(); }}>
-                <span>▶</span><b>Animated</b><small>A 16-second video invite with music. Download as MP4 or share a link.</small>
+                <span>▶</span><b>Animated</b><small>A 16-second video invite with music. Download as MP4, then share it on social media.</small>
               </button>
               <button type="button" className={mode === "card" ? "on" : ""} onClick={() => { setMode("card"); invalidateShare(); }}>
                 <span>▤</span><b>Simple card</b><small>A still card. Download as PNG or PDF, or print it.</small>
@@ -416,6 +427,8 @@ export default function CreatePage() {
             {mode === "video" && (<>
             <div className="sub-label">MUSIC</div>
             <Segmented label="Music" value={musicChoice} onChange={setMusicChoice} options={[{ id: "auto", label: "Auto" }, { id: "calm", label: "Soft" }, { id: "festive", label: "Festive" }, { id: "none", label: "No music" }]}/>
+            <div className="sub-label">ANIMATION</div>
+            <label className="field">ANIMATION STYLE<select aria-label="Animation style" value={design.intro ?? "bloom"} onChange={(e) => { updateDesign({ intro: e.target.value }); setPlaying(true); setRestartKey((k) => k + 1); }}>{INTRO_ANIMATIONS.map((animation) => <option key={animation.id} value={animation.id}>{animation.label}</option>)}</select></label>
               </>)}
           </section>
 
@@ -465,13 +478,12 @@ export default function CreatePage() {
                 <button type="button" onClick={() => { setMuted((m) => !m); setRestartKey((k) => k + 1); }}>{muted ? "🔇 Sound off" : "🔊 Sound on"}</button>
               </div>) : null}
             <div className="download-box">
-              {mode === "video" ? (exporting !== null ? (<div className="progress"><div style={{ width: `${Math.round(exporting * 100)}%` }}/><span>Making your video… {Math.round(exporting * 100)}%</span><button type="button" className="link" onClick={() => abortRef.current?.abort()}>Cancel</button></div>) : (<button type="button" className="primary" onClick={downloadVideo}>↓ Download video (MP4, 9:16 HD)</button>)) : (<>
+              {exporting !== null ? (<div className="progress"><div style={{ width: `${Math.round(exporting * 100)}%` }}/><span>Making your {mode === "video" ? "video" : "card"}… {Math.round(exporting * 100)}%</span>{exporting < 1 && mode === "video" && <button type="button" className="link" onClick={() => abortRef.current?.abort()}>Cancel</button>}</div>) : mode === "video" ? (<button type="button" className="primary" onClick={downloadVideo}>↓ Download video (MP4, 9:16 HD)</button>) : (<>
                   <div className="two-buttons"><button type="button" className="primary" onClick={downloadPng}>↓ Download PNG</button><button type="button" className="primary" onClick={downloadPdf}>↓ Download PDF</button></div>
                   <button type="button" className="secondary" onClick={printCard}>Print card</button>
                 </>)}
               {exportError && <p className="error">{exportError}</p>}
-              <button type="button" className="secondary" disabled={shareBusy} onClick={createLink}>Publish invitation · create guest link</button>
-              <SocialShareActions key={JSON.stringify([design, details, mode, musicChoice])} url={shareUrl} title={details.title || "our celebration"} createLink={createLink} type={mode === "video" ? "invitation video" : "invitation card"} />
+              {downloadedFile && exporting === null && <SocialShareActions key={`${downloadedFile.name}:${downloadedFile.lastModified}`} file={downloadedFile} type={mode === "video" ? "invitation video" : "invitation card"} />}
             </div>
           </div>
         </aside>

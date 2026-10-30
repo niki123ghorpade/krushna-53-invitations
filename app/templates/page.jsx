@@ -4,7 +4,7 @@ import dynamic from "next/dynamic";
 import Thumb, { cardThumbJob, photoFingerprint } from "@/components/Thumb";
 import FilterPanel from "@/components/FilterPanel";
 import PlanNav from "@/components/PlanNav";
-import TemplatePrice from "@/components/TemplatePrice";
+// import TemplatePrice from "@/components/TemplatePrice"; // Temporarily hidden on the templates page.
 import { PLANS, cardPlan, validPlan } from "@/lib/plans";
 import { ColorwayDots, SiteFooter, SiteHeader, readSavedDetails } from "@/components/ui";
 import { DEMO_DETAILS, EVENT_ORDER, EVENT_PRESETS } from "@/lib/invite-design";
@@ -95,7 +95,7 @@ export default function TemplatesPage() {
           <p>No templates match these filters.</p>
           <a className="primary" href="/create#save-template">Create a template →</a>
         </div>) : (<div className="tpl-grid">
-          {tier === "basic" && <article className="tpl-card add-own-card"><a className="add-own-template" href="/create?tier=basic&mode=card&artwork=upload#artwork"><span aria-hidden="true">＋</span><b>Add your own</b><p>Upload your artwork and personalise your simple invitation.</p></a><div className="tpl-meta"><b>Your own design</b><TemplatePrice template={{ userSaved: true }} /><small>Basic digital invitation</small><p className="hint small">Start from your own artwork</p></div><div className="cw-placeholder" aria-hidden="true"/><div className="tpl-actions"><button type="button" onClick={() => window.location.assign("/create?tier=basic&mode=card&artwork=upload#artwork")}>Preview</button><a className="primary" href="/create?tier=basic&mode=card&artwork=upload#artwork">Upload design</a></div></article>}
+          {tier === "basic" && <article className="tpl-card add-own-card"><a className="add-own-template" href="/create?tier=basic&mode=card&artwork=upload#artwork"><span aria-hidden="true">＋</span><b>Add your own</b><p>Upload your artwork and personalise your simple invitation.</p></a><div className="tpl-meta"><b>Your own design</b>{/* <TemplatePrice template={{ userSaved: true }} /> */}<small>Basic digital invitation</small><p className="hint small">Start from your own artwork</p></div><div className="cw-placeholder" aria-hidden="true"/><div className="tpl-actions"><button type="button" onClick={() => window.location.assign("/create?tier=basic&mode=card&artwork=upload#artwork")}>Preview</button><a className="primary" href="/create?tier=basic&mode=card&artwork=upload#artwork">Upload design</a></div></article>}
           {list.map((t) => (<article key={t.id} className="tpl-card">
               <button type="button" className="tpl-thumb" onClick={() => setPreview(t)} aria-label={`Preview ${t.name}`}>
                 <Thumb cacheKey={`card:${t.id}:${cwOf(t)}:${photoKey}:${details.brideName}:${details.groomName}:${details.date}`} make={cardThumbJob(templateDesign(t, cwOf(t)), details)} alt={`${t.name}, ${t.def.colorways[cwOf(t)].name}`}/>
@@ -103,7 +103,7 @@ export default function TemplatesPage() {
               </button>
               <div className="tpl-meta">
                 <b>{t.name}</b>
-                <TemplatePrice template={t} />
+                {/* <TemplatePrice template={t} /> */}
                 <small>{t.regional ? `${t.regionLabel} · ` : ""}{EVENT_PRESETS[t.event].label} · {t.def.colorways[cwOf(t)].name}</small>
                 <p className="hint small">{t.blurb}</p>
               </div>
@@ -124,7 +124,7 @@ export default function TemplatesPage() {
             <div className="modal-side">
               <small>{preview.regional ? `${preview.regionLabel} · ` : ""}{EVENT_PRESETS[preview.event].label} · {preview.def.colorways[cwOf(preview)].name}</small>
               <h2>{preview.name}</h2>
-              <TemplatePrice template={preview} />
+              {/* <TemplatePrice template={preview} /> */}
               <p className="hint">{preview.blurb}</p>
               <div className="sub-label">COLOUR OPTIONS</div>
               <ColorwayDots size="lg" colorways={preview.def.colorways} value={cwOf(preview)} onChange={(i) => setCw(preview, i)}/>
