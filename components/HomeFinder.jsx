@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useMemo, useState } from "react";
 import Thumb, { cardThumbJob, photoFingerprint, reelThumbJob } from "@/components/Thumb";
-import TemplatePrice from "@/components/TemplatePrice";
+// import TemplatePrice from "@/components/TemplatePrice"; // Temporarily hidden on the home finder.
 import { EVENT_ORDER, EVENT_PRESETS } from "@/lib/invite-design";
 import { REEL_KINDS, REEL_TEMPLATES } from "@/lib/reels";
 import { CARD_TEMPLATES, readUserTemplateCards, templateDesign } from "@/lib/templates";
@@ -12,15 +12,15 @@ const COLLECTIONS = [
     { id: "couple", label: "Bride & groom" },
     { id: "popular", label: "Popular" },
     { id: "new", label: "New" },
-    { id: "reels", label: "Reel styles" },
 ];
+const FORMATS = [{ id: "card", label: "Card" }, { id: "reel", label: "Reel" }];
 const FEATURED = ["noir-foil", "ruby-engraving", "ivory-botanical", "haldi-rangoli", "mehndi-peacock", "sangeet-disco"];
 const PREMIUM = ["noir-foil", "ruby-engraving", "ivory-botanical", "celestial-night", "pastel-garden", "royal-mandala"];
 const SHOW = 6;
 
 /** A native select dressed as an underlined word inside the sentence. */
-function Pick({ label, value, onChange, options }) {
-    return (<label className="finder-pick">
+function Pick({ label, field, value, onChange, options }) {
+    return (<label className={`finder-pick ${field}`}>
       <span className="sr-only">{label}</span>
       <span className="finder-mobile-label" aria-hidden="true">{label}</span>
       <select value={value} onChange={(e) => onChange(e.target.value)}>
@@ -61,6 +61,7 @@ function results(collection, event, culture, kind, userTemplates) {
 }
 
 export default function HomeFinder({ details }) {
+    const [format, setFormat] = useState("card");
     const [collection, setCollection] = useState("regional");
     const [event, setEvent] = useState("wedding");
     const [culture, setCulture] = useState("all");
@@ -73,11 +74,11 @@ export default function HomeFinder({ details }) {
         return () => window.removeEventListener("storage", refresh);
     }, []);
     const list = useMemo(() => {
-        return results(collection, event, culture, kind, userTemplates);
-    }, [collection, event, culture, kind, userTemplates]);
+        return results(format === "reel" ? "reels" : collection, event, culture, kind, userTemplates);
+    }, [format, collection, event, culture, kind, userTemplates]);
     const shown = list.slice(0, SHOW);
-    const isReel = collection === "reels";
-    const hasCulture = collection === "regional" || collection === "couple";
+    const isReel = format === "reel";
+    const hasCulture = !isReel && (collection === "regional" || collection === "couple");
     const photoKey = photoFingerprint(details.couplePhoto);
     const allHref = isReel
         ? `/reels?${new URLSearchParams({ ...(event !== "all" && { event }), ...(kind !== "all" && { kind }) })}#reel-templates`
@@ -88,32 +89,35 @@ export default function HomeFinder({ details }) {
     const pickCollection = (c) => { setCollection(c); setCulture("all"); setKind("all"); };
     return (<section className="finder" aria-labelledby="finder-title">
       <div className="finder-inner">
-        <h2 id="finder-title">Find your <em>perfect design</em></h2>
-        <p className="finder-sub">Fill the line and see matching designs.</p>
-        <form className="finder-form" onSubmit={(e) => { e.preventDefault(); window.location.href = allHref; }}>
+        <div className="finder-controls">
+          <h2 id="finder-title">Find your <em>perfect design</em></h2>
+          <p className="finder-sub">Fill the line and see matching designs.</p>
+          <form className="finder-form" onSubmit={(e) => { e.preventDefault(); window.location.href = allHref; }}>
           <p className="finder-sentence">
             <span className="finder-lead">Show me</span>
-            <Pick label="Collection" value={collection} onChange={pickCollection} options={COLLECTIONS}/>
+            <Pick label="Invitation format" field="format" value={format} onChange={setFormat} options={FORMATS}/>
+            {!isReel && <><span className="finder-connector">with</span><Pick label="Collection" field="collection" value={collection} onChange={pickCollection} options={COLLECTIONS}/></>}
             <span className="finder-connector">{isReel ? "for" : "designs for"}</span>
-            <Pick label="Ceremony" value={event} onChange={setEvent} options={eventOptions}/>
-            {hasCulture && <><span className="finder-connector">in</span><Pick label="Regional style" value={culture} onChange={setCulture} options={cultureOptions}/><span className="finder-connector">style</span></>}
-            {isReel && <><span className="finder-connector">with</span><Pick label="Animation" value={kind} onChange={setKind} options={kindOptions}/><span className="finder-connector">animation</span></>}
+            <Pick label="Ceremony" field="ceremony" value={event} onChange={setEvent} options={eventOptions}/>
+            {hasCulture && <><span className="finder-connector">in</span><Pick label="Regional style" field="culture" value={culture} onChange={setCulture} options={cultureOptions}/><span className="finder-connector">style</span></>}
+            {isReel && <><span className="finder-connector">with</span><Pick label="Animation" field="animation" value={kind} onChange={setKind} options={kindOptions}/><span className="finder-connector">animation</span></>}
           </p>
           <button type="submit" className="finder-go">Show designs →</button>
-        </form>
+          </form>
+        </div>
 
         {shown.length ? (<div className="finder-grid">
             {shown.map((t) => isReel ? (<a key={t.id} className="mini-card" href={`/reels/create?reel=${t.id}`}>
                 <Thumb cacheKey={`reel:${t.id}:${details.brideName}:${details.groomName}:${details.date}`} make={reelThumbJob(t, details)} alt={t.name}/>
                 <span className="badge">▶ {REEL_KINDS[t.kind].label}</span>
                 <b>{t.name.split(" · ").pop()}</b>
-                <TemplatePrice template={t} reel />
+                {/* <TemplatePrice template={t} reel /> */}
                 <small>{EVENT_PRESETS[t.event]?.label} · reel</small>
               </a>) : (<a key={t.id} className="mini-card" href={`/create?template=${t.id}`}>
                 <Thumb cacheKey={`card:${t.id}:0:${photoKey}:${details.brideName}:${details.groomName}:${details.date}`} make={cardThumbJob(templateDesign(t), details)} alt={t.name}/>
                 <span className="badge">{t.regional ? t.tradition : t.style === "Couple" ? "✦ Bride & groom" : collection === "new" ? "New" : collection === "popular" && t.userSaved ? "Popular" : t.style}</span>
                 <b>{t.regional ? t.regionLabel : t.name}</b>
-                <TemplatePrice template={t} />
+                {/* <TemplatePrice template={t} /> */}
                 <small>{t.regional ? `${t.name.split(" · ").pop()} · ` : `${EVENT_PRESETS[t.event]?.label} · `}{t.def.colorways.length} colours</small>
               </a>))}
           </div>) : (<p className="finder-empty">No designs match yet. Try “any ceremony” or another style.</p>)}
@@ -121,3 +125,4 @@ export default function HomeFinder({ details }) {
       </div>
     </section>);
 }
+

@@ -6,9 +6,8 @@ import { ColorwayDots, DRAFT_KEY, Segmented, SiteFooter, SiteHeader, download, r
 import { designFromDef, designOf, designsFor, traditionOf, wordingFor } from "@/lib/designs";
 import { DEMO_DETAILS, EVENT_ORDER, EVENT_PRESETS, FONT_PAIRS, } from "@/lib/invite-design";
 import { generateMusic, musicStyleFor, prepareUploadedMusic } from "@/lib/music";
-import { ensureFonts, loadImage } from "@/lib/renderer";
-import { ReelRenderer, REEL_KINDS, defaultJourney, findReelTemplate, reelDesign, reelDuration } from "@/lib/reels";
-import { publishInvitation, invitationPoster, fileToDataUrl, uploadImage } from "@/lib/share";
+import { REEL_KINDS, defaultJourney, findReelTemplate, reelDesign, reelDuration } from "@/lib/reels";
+import { fileToDataUrl } from "@/lib/share";
 import SocialShareActions from "@/components/SocialShareActions";
 const COLOR_FIELDS = [
     { key: "deep", label: "Background" }, { key: "sky", label: "Highlight" }, { key: "accent", label: "Gold & title" }, { key: "flower", label: "Flowers" }, { key: "text", label: "Text" },
@@ -38,8 +37,7 @@ export default function ReelMaker() {
     const [music, setMusic] = useState(null);
     const [exporting, setExporting] = useState(null);
     const [exportError, setExportError] = useState("");
-    const [shareUrl, setShareUrl] = useState("");
-    const [shareBusy, setShareBusy] = useState(false);
+    const [downloadedFile, setDownloadedFile] = useState(null);
     const abortRef = useRef(null);
     useEffect(() => {
         const saved = readSavedDetails();
@@ -75,7 +73,7 @@ export default function ReelMaker() {
     }, [details.brideName, details.groomName, details.date, details.time, details.venue, details.city]);
     const photoSrcs = useMemo(() => photos.map((p) => p.src), [photos]);
     const photoVersion = JSON.stringify(photoSrcs);
-    useEffect(() => { setShareUrl(""); }, [photoVersion, musicChoice, songOffset, songFile]);
+    useEffect(() => { setDownloadedFile(null); }, [photoVersion, musicChoice, songOffset, songFile]);
     const duration = reelDuration(kind, events.length, photos.length);
     useEffect(() => {
         let alive = true;
@@ -122,7 +120,7 @@ export default function ReelMaker() {
         invalidate();
     }
     const restart = () => { setPlaying(true); setRestartKey((k) => k + 1); };
-    const invalidate = () => { setShareUrl(""); };
+    const invalidate = () => { setDownloadedFile(null); };
     const updateDetails = (k, v) => { setDetails((d) => ({ ...d, [k]: v })); invalidate(); };
     const updateDesign = (patch) => { setDesign((d) => ({ ...d, ...patch })); invalidate(); };
     function chooseKind(k) { setKind(k); setTpl(null); restart(); invalidate(); }
@@ -163,49 +161,27 @@ export default function ReelMaker() {
     const input = useReelInput({ kind, design, details, events, photoSrcs });
     async function downloadVideo() {
         setExportError("");
+        setDownloadedFile(null);
         setExporting(0);
         const ctrl = new AbortController();
         abortRef.current = ctrl;
+        let completed = false;
         try {
             const { exportReelVideo } = await import("@/lib/export-video");
             const { blob, ext } = await exportReelVideo(input, music, (p) => setExporting(p), { signal: ctrl.signal });
-            download(blob, `${details.brideName}-${details.groomName}-${kind}-reel.${ext}`.replace(/\s+/g, "-").toLowerCase());
+            const filename = `${details.brideName}-${details.groomName}-${kind}-reel.${ext}`.replace(/\s+/g, "-").toLowerCase();
+            download(blob, filename);
+            setDownloadedFile(new File([blob], filename, { type: blob.type || (ext === "mp4" ? "video/mp4" : "video/webm") }));
+            setExporting(1);
+            completed = true;
         }
         catch (e) {
             if (e.name !== "AbortError")
                 setExportError(e instanceof Error ? e.message : "Export failed");
         }
         finally {
-            setExporting(null);
-        }
-    }
-    async function createLink() {
-        setShareBusy(true);
-        try {
-            const sharedPhotos = [];
-            if (kind === "photos") {
-                const updated = [...photos];
-                for (let i = 0; i < updated.length; i++) {
-                    if (!updated[i].url)
-                        updated[i] = { ...updated[i], url: (await uploadImage(updated[i].src)) ?? undefined };
-                    sharedPhotos.push(updated[i].url ?? updated[i].src);
-                }
-                setPhotos(updated);
-            }
-            const shareDetails = { ...details, couplePhoto: undefined };
-            const m = musicChoice === "none" ? "none" : musicChoice === "calm" || musicChoice === "festive" ? musicChoice : kind === "cinematic" || kind === "journey" ? "festive" : musicStyleFor(design.event);
-            const payload = { v: 2, mode: "video", design, details: shareDetails, music: m, reel: { kind, events: kind === "journey" ? events : [], photos: sharedPhotos } };
-            await ensureFonts(design);
-            const renderer = new ReelRenderer(document.createElement("canvas"));
-            renderer.setInput({ ...input, photos: await Promise.all(photoSrcs.map(loadImage)) });
-            renderer.draw(renderer.posterTime);
-            const link = await publishInvitation(payload, invitationPoster(renderer.canvas));
-            setShareUrl(link);
-            return link;
-        }
-        catch (error) { setExportError(error.message || "Could not create the guest link."); }
-        finally {
-            setShareBusy(false);
+            if (completed) window.setTimeout(() => setExporting(null), 450);
+            else setExporting(null);
         }
     }
     const needs = REEL_KINDS[kind].needs;
@@ -340,10 +316,9 @@ export default function ReelMaker() {
               <button type="button" onClick={() => { setMuted((m) => !m); setRestartKey((k) => k + 1); }}>{muted ? "🔇 Sound off" : "🔊 Sound on"}</button>
             </div>
             <div className="download-box">
-              {exporting !== null ? (<div className="progress"><div style={{ width: `${Math.round(exporting * 100)}%` }}/><span>Making your reel… {Math.round(exporting * 100)}%</span><button type="button" className="link" onClick={() => abortRef.current?.abort()}>Cancel</button></div>) : (<button type="button" className="primary" onClick={downloadVideo}>↓ Download reel (MP4, 9:16 HD)</button>)}
+              {exporting !== null ? (<div className="progress"><div style={{ width: `${Math.round(exporting * 100)}%` }}/><span>Making your reel… {Math.round(exporting * 100)}%</span>{exporting < 1 && <button type="button" className="link" onClick={() => abortRef.current?.abort()}>Cancel</button>}</div>) : (<button type="button" className="primary" onClick={downloadVideo}>↓ Download reel (MP4, 9:16 HD)</button>)}
               {exportError && <p className="error">{exportError}</p>}
-              <button type="button" className="secondary" disabled={shareBusy} onClick={createLink}>Create guest link</button>
-              <SocialShareActions key={JSON.stringify([design, details, kind, events, photoVersion, musicChoice, songOffset, songFile?.name])} url={shareUrl} title={details.title || "our celebration"} createLink={createLink} type="invitation reel" />
+              {downloadedFile && exporting === null && <SocialShareActions key={`${downloadedFile.name}:${downloadedFile.lastModified}`} file={downloadedFile} type="invitation reel" />}
             </div>
           </div>
         </aside>
