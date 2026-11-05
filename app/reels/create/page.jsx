@@ -314,6 +314,7 @@ export default function ReelMaker() {
                 <label className="field">SONG FILE (MP3/M4A)<input type="file" accept="audio/*" onChange={(e) => setSongFile(e.target.files?.[0] ?? null)}/></label>
                 <label className="field">START FROM (SECONDS)<input type="number" min={0} max={600} value={songOffset} onChange={(e) => setSongOffset(Number(e.target.value) || 0)}/></label>
               </div>)}
+            {isAiSource && <p className="hint small">Selected music replaces the original AI video audio in the phone preview and downloaded reel. Tap Sound on to listen. Audio changes use no API credits; Open / save generated MP4 keeps the original provider audio.</p>}
             <p className="hint small">Built-in music is generated in your browser and free to use. Only upload songs you have the rights to share.</p>
           </section>
         </div>

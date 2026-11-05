@@ -105,3 +105,20 @@ test("long multilingual story descriptions and full prompts pass the signed gene
  assert.equal((await call('generate',{token:q.token,confirmed:true,image})).status,202);assert.equal(starts,1);assert.equal(submitted.prompt,customPrompt);
  assert.equal((await call('quote',{...options,promptMode:'replace',customPrompt:customPrompt+'x'})).status,400);
 });
+
+
+test('story suggestions use text API only after explicit consent, without changing stored videos',async()=>{
+ let calls=0,payload;
+ const {call}=setup(async(url,init)=>{calls++;assert.equal(url,'https://api.x.ai/v1/responses');payload=JSON.parse(init.body);return Response.json({output:[{type:'message',content:[{type:'output_text',text:'They meet in a sunlit bookshop, exchange shy smiles and share a coffee.'}]}],usage:{cost_in_usd_ticks:1000000}});});
+ const story='They meet in a bookshop and later have coffee together.';
+ assert.equal((await call('suggest-story',{story})).status,400);assert.equal(calls,0);
+ const response=await call('suggest-story',{story,confirmed:true,animation:'Watercolour storybook',seconds:15});assert.equal(response.status,200);
+ const data=await response.json();assert.match(data.suggestion,/sunlit bookshop/);assert.equal(data.actualCostUsd,.0001);assert.equal(calls,1);assert.equal(payload.store,false);assert.equal(payload.model,'grok-4.3');assert.equal(payload.input[1].content,story);
+ assert.equal((await call('suggest-story',{story,confirmed:true},{'x-ai-access-code':'wrong'})).status,403);assert.equal(calls,1);
+});
+test('suggestion failure never retries or replaces the users story',async()=>{let calls=0;const {call}=setup(()=>{calls++;throw new Error('network interrupted');});const response=await call('suggest-story',{story:'We met at a bookshop, fell in love and got engaged.',confirmed:true});assert.equal(response.status,503);assert.equal(calls,1);assert.equal((await response.json()).suggestion,undefined);});
+test('freeform story is bound to one confirmed video prompt',async()=>{const {storyFilmPrompt,validStoryScene}=await import('../lib/ai-story.mjs');const story='We met at a bookshop. Later our families met at home.';const prompt=storyFilmPrompt(story,{seconds:15});assert.ok(prompt.includes(story));assert.ok(!prompt.includes('undefined'));const {call}=setup();const scene={title:'Our story',index:0,count:1,storyText:story};assert.equal(validStoryScene(scene),true);const response=await call('quote',{...options,ceremony:'story',storyScene:scene,promptMode:'replace',customPrompt:prompt});assert.equal(response.status,200);assert.equal((await response.json()).storyScene.storyText,story);});
+
+test('scene improvements respect the scene description limit',async()=>{let instructions;const {call}=setup(async(url,init)=>{instructions=JSON.parse(init.body).input[0].content;return Response.json({output:[{type:'message',content:[{type:'output_text',text:'x'.repeat(3001)}]}]});});const response=await call('suggest-story',{story:'We met at a quiet bookshop and had coffee together.',confirmed:true,maxCharacters:3000});assert.match(instructions,/under 3000 characters/);assert.equal(response.status,503);assert.equal((await response.json()).suggestion,undefined);});
+
+test('media distinguishes expired links from temporary provider errors',async()=>{for(const [status,body,expectedCode] of [[404,'missing','VIDEO_EXPIRED'],[403,'Request has expired','VIDEO_EXPIRED'],[503,'unavailable','VIDEO_TEMPORARY'],[403,'Access denied','VIDEO_TEMPORARY']]){const {call}=setup(async(url,init)=>{if(init.method==='POST')return Response.json({request_id:'check-media'});if(url.includes('/v1/videos/'))return Response.json({status:'done',video:{url:'https://vidgen.x.ai/generated/test.mp4'},usage:{cost_in_usd_ticks:1100000000}});return new Response(body,{status});});const q=await(await call('quote',options)).json();await call('generate',{token:q.token,confirmed:true,image});await call('status',{token:q.token});const r=await call('media',{token:q.token});assert.equal((await r.json()).code,expectedCode);assert.equal(r.status,expectedCode==='VIDEO_EXPIRED'?410:503);}});
