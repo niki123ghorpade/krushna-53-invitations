@@ -1361,3 +1361,23 @@ body:has(.full-journey-demo) .support-chat { display: none; }
  .ai-preview .phone { width:100%; max-width:380px; margin-inline:auto; padding:8px; }
  .ai-preview .preview-sticky { width:100%; max-width:380px; }
 }
+
+.ai-story-assistance { margin:18px 0; padding:16px; border:1px solid #ded7ed; border-radius:14px; background:#f8f5fc; }
+.ai-video-setup .ai-auto-suggest { display:flex; flex-direction:row; align-items:center; gap:10px; }
+.ai-video-setup .ai-auto-suggest input { width:18px; min-height:18px; height:18px; accent-color:#302350; }
+.ai-story-suggestion { margin-top:16px; padding-top:12px; border-top:1px solid #ded7ed; }
+.ai-story-prose { white-space:pre-wrap; line-height:1.65; font-size:14px; user-select:text; }
+.ai-story-suggestion-actions { display:flex; flex-wrap:wrap; gap:10px; }
+.ai-story-example { margin-top:24px; padding:16px; border:1px solid #e5dccf; border-radius:14px; background:#fffaf4; }
+.ai-story-example summary { cursor:pointer; font-weight:600; }
+.ai-story-example button { margin:6px 8px 0 0; }
+.ai-preview-phone { overflow:hidden; }
+.ai-preview-phone .invite-canvas { display:block; width:100%; aspect-ratio:9/16; object-fit:cover; }
+
+.ai-scene-questions, .ai-shared-photo { padding:16px; margin:16px 0; border:1px solid #ded7ed; border-radius:14px; background:#f8f5fc; }
+.ai-scene-questions h3 { margin:0 0 10px; font-size:15px; }
+.ai-scene-questions ul { padding-left:20px; margin:0; font-size:13px; line-height:1.7; color:#68607a; }
+
+.ai-scene-guide { padding:14px; margin:12px 0 18px; border:1px solid #ded7ed; border-radius:12px; background:#f8f5fc; }
+.ai-scene-guide label { font-size:13px; }
+.ai-guided-draft { margin-top:12px; padding-top:10px; border-top:1px solid #ded7ed; }
