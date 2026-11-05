@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 260 260" width="260" height="260">
+  <!-- EveryMoment corner bouquet (top-left). Mirror with CSS for the other corners. -->
+  <defs>
+    <g id="leaf">
+      <path d="M0 0C6-9 19-10 29 0C19 10 6 9 0 0Z" fill="#7f8f6a"/>
+      <path d="M1 0H25" stroke="#5f6d4d" stroke-width=".8" fill="none"/>
+    </g>
+    <g id="leafDark">
+      <path d="M0 0C6-9 19-10 29 0C19 10 6 9 0 0Z" fill="#66754f"/>
+      <path d="M1 0H25" stroke="#4d5a3c" stroke-width=".8" fill="none"/>
+    </g>
+    <g id="blossom">
+      <g fill="#fffaf3" stroke="#e8cfc0" stroke-width=".6">
+        <ellipse cx="0" cy="-5.2" rx="3.7" ry="5.4"/>
+        <ellipse cx="0" cy="-5.2" rx="3.7" ry="5.4" transform="rotate(72)"/>
+        <ellipse cx="0" cy="-5.2" rx="3.7" ry="5.4" transform="rotate(144)"/>
+        <ellipse cx="0" cy="-5.2" rx="3.7" ry="5.4" transform="rotate(216)"/>
+        <ellipse cx="0" cy="-5.2" rx="3.7" ry="5.4" transform="rotate(288)"/>
+      </g>
+      <circle r="2.2" fill="#ff6b57"/>
+      <circle r="1" fill="#ffd2c4"/>
+    </g>
+    <g id="rose">
+      <circle r="10" fill="#f4a596"/>
+      <path d="M-9 3C-9-6 0-11 7-7" stroke="#e5503c" stroke-width="1" fill="none" opacity=".55"/>
+      <circle r="6.6" fill="#f7b8aa"/>
+      <path d="M-4.5 1.5a4.8 4.8 0 1 1 6.5 3.6M-1.8.4a2.3 2.3 0 1 1 2.9 1.9" stroke="#d9564a" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+    </g>
+    <g id="creamRose">
+      <circle r="10" fill="#fbeee0"/>
+      <path d="M-9 3C-9-6 0-11 7-7" stroke="#d8b99a" stroke-width="1" fill="none"/>
+      <circle r="6.6" fill="#fff6ec"/>
+      <path d="M-4.5 1.5a4.8 4.8 0 1 1 6.5 3.6M-1.8.4a2.3 2.3 0 1 1 2.9 1.9" stroke="#c9a37f" stroke-width="1.1" fill="none" stroke-linecap="round"/>
+    </g>
+    <g id="bud">
+      <path d="M0 0C-2.4-3-2.6-7 0-10C2.6-7 2.4-3 0 0Z" fill="#f7a99a"/>
+      <path d="M0 0C-2-1-3-3-3.2-5M0 0C2-1 3-3 3.2-5" stroke="#7f8f6a" stroke-width="1" fill="none"/>
+    </g>
+  </defs>
+
+  <!-- trailing stems along the top and left edges -->
+  <path d="M40 30C90 22 150 30 250 18" stroke="#9a8667" stroke-width="1.4" fill="none"/>
+  <path d="M30 40C22 90 30 150 18 250" stroke="#9a8667" stroke-width="1.4" fill="none"/>
+  <use xlink:href="#leaf" transform="translate(120 27) rotate(-160)"/>
+  <use xlink:href="#leaf" transform="translate(150 28) rotate(-25)"/>
+  <use xlink:href="#leaf" transform="translate(190 24) rotate(-165)"/>
+  <use xlink:href="#bud" transform="translate(222 20) rotate(80)"/>
+  <use xlink:href="#blossom" transform="translate(170 36) scale(.9)"/>
+  <use xlink:href="#leaf" transform="translate(27 120) rotate(110)"/>
+  <use xlink:href="#leaf" transform="translate(28 150) rotate(65)"/>
+  <use xlink:href="#leaf" transform="translate(24 190) rotate(115)"/>
+  <use xlink:href="#bud" transform="translate(20 225) rotate(170)"/>
+  <use xlink:href="#blossom" transform="translate(36 170) scale(.9)"/>
+
+  <!-- main cluster -->
+  <use xlink:href="#leafDark" transform="translate(30 60) rotate(95) scale(1.7)"/>
+  <use xlink:href="#leafDark" transform="translate(60 30) rotate(-5) scale(1.7)"/>
+  <use xlink:href="#leaf" transform="translate(96 40) rotate(-35) scale(1.3)"/>
+  <use xlink:href="#leaf" transform="translate(40 96) rotate(125) scale(1.3)"/>
+  <use xlink:href="#leaf" transform="translate(110 64) rotate(15) scale(1.2)"/>
+  <use xlink:href="#leaf" transform="translate(64 110) rotate(75) scale(1.2)"/>
+  <use xlink:href="#blossom" transform="translate(132 38) scale(1.1)"/>
+  <use xlink:href="#blossom" transform="translate(38 132) scale(1.1)"/>
+  <use xlink:href="#blossom" transform="translate(118 80) scale(.9)"/>
+  <use xlink:href="#blossom" transform="translate(80 118) scale(.9)"/>
+  <use xlink:href="#leafDark" transform="translate(70 62) rotate(10) scale(1.5)"/>
+  <use xlink:href="#leafDark" transform="translate(60 72) rotate(80) scale(1.5)"/>
+  <use xlink:href="#leaf" transform="translate(80 50) rotate(-20) scale(1.4)"/>
+  <use xlink:href="#leaf" transform="translate(50 80) rotate(110) scale(1.4)"/>
+  <use xlink:href="#leaf" transform="translate(92 70) rotate(30) scale(1.2)"/>
+  <use xlink:href="#leaf" transform="translate(70 92) rotate(60) scale(1.2)"/>
+  <use xlink:href="#creamRose" transform="translate(26 24) scale(2.9)"/>
+  <use xlink:href="#rose" transform="translate(74 44) scale(1.9)"/>
+  <use xlink:href="#rose" transform="translate(44 76) scale(1.6)"/>
+  <use xlink:href="#blossom" transform="translate(104 48) scale(1.2)"/>
+  <use xlink:href="#blossom" transform="translate(48 106) scale(1.2)"/>
+  <use xlink:href="#blossom" transform="translate(82 80) scale(1.1)"/>
+  <use xlink:href="#bud" transform="translate(120 52) rotate(70)"/>
+  <use xlink:href="#bud" transform="translate(56 122) rotate(160)"/>
+  <use xlink:href="#bud" transform="translate(98 94) rotate(130)"/>
+</svg>

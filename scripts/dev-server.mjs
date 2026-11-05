@@ -5,6 +5,7 @@ import { mkdir, readFile, writeFile, readdir } from "node:fs/promises";
 import next from "next";
 import { serveInvitation } from "../lib/invitation-service.mjs";
 import { serveAiVideo } from "../lib/ai-video-service.mjs";
+import { serveTranslation } from "../lib/google-translate-service.mjs";
 
 const port = Number(process.env.PORT || 3000);
 // Check before Next prepares its cache: a second dev process must not rebuild
@@ -36,12 +37,13 @@ const aiStore = {
 };
 http.createServer(async (req, res) => {
     const ai = /^\/api\/ai-video\//.test(req.url);
-    if (!ai && !/^\/(api\/invitation(?:\/|$)|i\/)/.test(req.url)) return handle(req, res);
+    const translate = /^\/api\/translate(?:\?|$)/.test(req.url);
+    if (!ai && !translate && !/^\/(api\/invitation(?:\/|$)|i\/)/.test(req.url)) return handle(req, res);
     try {
         const chunks = []; let length = 0;
         for await (const chunk of req) { length += chunk.length; if (length > (ai ? 4_600_000 : 4_000_000)) { res.writeHead(413); res.end("Upload is too large"); return; } chunks.push(chunk); }
         const request = new Request(`http://${req.headers.host}${req.url}`, { method: req.method, headers: req.headers, ...(chunks.length ? { body: Buffer.concat(chunks) } : {}) });
-        const response = ai ? await serveAiVideo(request, { store: aiStore, apiKey: process.env.XAI_API_KEY, managementKey: process.env.XAI_MANAGEMENT_API_KEY, teamId: process.env.XAI_TEAM_ID, accessCode: process.env.AI_VIDEO_ACCESS_CODE, allowLocalAccess: ["127.0.0.1", "::1", "::ffff:127.0.0.1"].includes(req.socket.remoteAddress) }) : await serveInvitation(request, store);
+        const response = ai ? await serveAiVideo(request, { store: aiStore, apiKey: process.env.XAI_API_KEY, managementKey: process.env.XAI_MANAGEMENT_API_KEY, teamId: process.env.XAI_TEAM_ID, accessCode: process.env.AI_VIDEO_ACCESS_CODE, allowLocalAccess: ["127.0.0.1", "::1", "::ffff:127.0.0.1"].includes(req.socket.remoteAddress) }) : translate ? await serveTranslation(request) : await serveInvitation(request, store);
         res.writeHead(response.status, Object.fromEntries(response.headers));
         res.end(Buffer.from(await response.arrayBuffer()));
     } catch { res.writeHead(503, { "content-type": "application/json" }); res.end(JSON.stringify({ error: "Could not save or load the invitation." })); }

@@ -91,7 +91,12 @@ export default function WeddingWebsitesPage() {
         <p className="eyebrow">A LITTLE HOME FOR YOUR BIG DAY</p>
         <h1>Your Wedding, Your Story <em>— A Website Made for You</em></h1>
         <p>Bring every detail of your celebration together in one thoughtful, personal place. Designed around the two of you and made easy to share with everyone you love.</p>
-        <a className="wedding-hero-link" href="#designs">Explore design ideas <span>↓</span></a>
+        <div className="wedding-hero-links">
+          <a className="wedding-hero-link" href="#designs">Explore design ideas <span>↓</span></a>
+          <a className="wedding-hero-link" href="/wedding-websites/demo">See a live demo <span>↗</span></a>
+          <a className="wedding-hero-link" href="/wedding-websites/demo-card">Card-style demo <span>↗</span></a>
+          <a className="wedding-hero-link" href="/wedding-websites/demo-garden">Envelope demo <span>↗</span></a>
+        </div>
       </div>
       <div className="wedding-hero-art" aria-label="Illustrated wedding website preview">
         <div className="wedding-hero-orbit orbit-one"/><div className="wedding-hero-orbit orbit-two"/>
