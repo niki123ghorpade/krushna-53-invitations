@@ -61,7 +61,7 @@ export default function Home() {
         <p className="eyebrow landing-hero-eyebrow">INVITATIONS FOR EVERY MOMENT</p>
         <h1>Every ceremony, <em>beautifully invited.</em></h1>
         <p className="landing-hero-copy">Create a wedding invitation that feels like you — from the first card to every celebration in your journey.</p>
-        <div className="landing-hero-actions"><a className="primary" href="/create-my-invitation">Find your design <span aria-hidden="true">→</span></a><a className="landing-secondary" href="/wedding-journey-demo">View live demo <span aria-hidden="true">↗</span></a></div>
+        <div className="landing-hero-actions"><a className="primary" href="/create-my-invitation">Find your design <span aria-hidden="true">→</span></a><a className="landing-secondary" href="/wedding-websites/demo-card">View live demo <span aria-hidden="true">↗</span></a></div>
         <div className="landing-proof" aria-label="Cards, video reels, wedding journeys, PNG, PDF and MP4 downloads">
           <span className="landing-proof-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8" cy="9" r="1.5"/><path d="m4 17 5-5 3 3 2-2 6 5"/></svg><span>Cards</span></span>
           <span className="landing-proof-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4z"/></svg><span>Video reels</span></span>

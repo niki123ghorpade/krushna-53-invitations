@@ -1092,6 +1092,7 @@ body:has(.full-journey-demo) .support-chat { display: none; }
 .wedding-hero-copy > p:not(.eyebrow) { max-width: 540px; margin: 0; color: var(--w-muted); font-size: 16px; line-height: 1.8; }
 .wedding-hero-link { display: inline-flex; align-items: center; gap: 12px; margin-top: 28px; color: var(--w-ink); font-size: 14px; font-weight: 600; text-decoration: none; border-bottom: 1px solid #c8bdb0; padding-bottom: 8px; }
 .wedding-hero-link span { color: var(--w-coral); }
+.wedding-hero-links { display: flex; flex-wrap: wrap; gap: 4px 28px; }
 .wedding-hero-art { position: relative; display: grid; place-items: center; min-height: 350px; overflow: hidden; border-radius: 48% 48% 44% 44%; background: radial-gradient(ellipse at 52% 45%, #fffdf8 0 34%, transparent 35%), radial-gradient(ellipse at 50% 100%, #ead8c5 0 36%, transparent 37%), #e7e9df; }
 .wedding-hero-orbit { position: absolute; width: 285px; height: 330px; border: 1px solid rgba(89,111,91,.3); border-radius: 50%; transform: rotate(28deg); }
 .orbit-two { width: 330px; height: 285px; transform: rotate(-28deg); }

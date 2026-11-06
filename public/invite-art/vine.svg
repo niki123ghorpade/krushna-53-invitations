@@ -1,0 +1,100 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 100 520" width="100" height="520">
+  <!-- EveryMoment floral vine, tiles vertically. Stem is periodic so tiles join. -->
+  <defs>
+    <g id="leaf"><path d="M0 0C6-9 19-10 29 0C19 10 6 9 0 0Z" fill="#7f8f6a"/><path d="M1 0H25" stroke="#5f6d4d" stroke-width=".8" fill="none"/></g>
+    <g id="leafDark"><path d="M0 0C6-9 19-10 29 0C19 10 6 9 0 0Z" fill="#5f6f4a"/><path d="M1 0H25" stroke="#4d5a3c" stroke-width=".8" fill="none"/></g>
+    <g id="blossom"><g fill="#fffaf3" stroke="#e3c7b6" stroke-width=".6"><ellipse cx="0" cy="-5.2" rx="3.7" ry="5.4"/><ellipse cx="0" cy="-5.2" rx="3.7" ry="5.4" transform="rotate(72)"/><ellipse cx="0" cy="-5.2" rx="3.7" ry="5.4" transform="rotate(144)"/><ellipse cx="0" cy="-5.2" rx="3.7" ry="5.4" transform="rotate(216)"/><ellipse cx="0" cy="-5.2" rx="3.7" ry="5.4" transform="rotate(288)"/></g><circle r="2.2" fill="#ff8a73"/><circle r="1" fill="#ffe0d4"/></g>
+    <g id="rose"><circle r="10" fill="#e9978a"/><circle r="6.6" fill="#f7b8aa"/><path d="M-4.5 1.5a4.8 4.8 0 1 1 6.5 3.6M-1.8.4a2.3 2.3 0 1 1 2.9 1.9" stroke="#c94a40" stroke-width="1.1" fill="none" stroke-linecap="round"/></g>
+    <g id="creamRose"><circle r="10" fill="#f1dcc4"/><circle r="6.6" fill="#fff6ec"/><path d="M-4.5 1.5a4.8 4.8 0 1 1 6.5 3.6M-1.8.4a2.3 2.3 0 1 1 2.9 1.9" stroke="#c9a37f" stroke-width="1.1" fill="none" stroke-linecap="round"/></g>
+    <g id="bud"><path d="M0 0C-2.4-3-2.6-7 0-10C2.6-7 2.4-3 0 0Z" fill="#f2a195"/><path d="M0 0C-2-1-3-3-3.2-5M0 0C2-1 3-3 3.2-5" stroke="#7f8f6a" stroke-width="1" fill="none"/></g>
+  </defs>
+  <path d="M50.0 0 L50.0 0 L51.6 10 L53.1 20 L54.5 30 L55.7 40 L56.8 50 L57.6 60 L58.2 70 L58.6 80 L58.7 90 L58.5 100 L58.2 110 L57.7 120 L57.0 130 L56.2 140 L55.4 150 L54.6 160 L53.7 170 L53.0 180 L52.3 190 L51.7 200 L51.2 210 L50.8 220 L50.5 230 L50.3 240 L50.1 250 L50.0 260 L49.9 270 L49.7 280 L49.5 290 L49.2 300 L48.8 310 L48.3 320 L47.7 330 L47.0 340 L46.3 350 L45.4 360 L44.6 370 L43.8 380 L43.0 390 L42.3 400 L41.8 410 L41.5 420 L41.3 430 L41.4 440 L41.8 450 L42.4 460 L43.2 470 L44.3 480 L45.5 490 L46.9 500 L48.4 510 L50.0 520" stroke="#8c7a5b" stroke-width="1.6" fill="none"/>
+  <use href="#leafDark" transform="translate(51.9 12) rotate(190) scale(1.5)"/>
+  <use href="#leaf" transform="translate(50.7 16.0) rotate(-20) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(55.0 34) rotate(-10) scale(1.5)"/>
+  <use href="#leaf" transform="translate(56.2 38.0) rotate(200) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(57.3 56) rotate(190) scale(1.5)"/>
+  <use href="#leaf" transform="translate(56.1 60.0) rotate(-20) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(58.5 78) rotate(-10) scale(1.5)"/>
+  <use href="#leaf" transform="translate(59.7 82.0) rotate(200) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(58.5 100) rotate(190) scale(1.5)"/>
+  <use href="#leaf" transform="translate(57.3 104.0) rotate(-20) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(57.5 122) rotate(-10) scale(1.5)"/>
+  <use href="#leaf" transform="translate(58.7 126.0) rotate(200) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(55.9 144) rotate(190) scale(1.5)"/>
+  <use href="#leaf" transform="translate(54.7 148.0) rotate(-20) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(54.1 166) rotate(-10) scale(1.5)"/>
+  <use href="#leaf" transform="translate(55.3 170.0) rotate(200) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(52.4 188) rotate(190) scale(1.5)"/>
+  <use href="#leaf" transform="translate(51.2 192.0) rotate(-20) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(51.2 210) rotate(-10) scale(1.5)"/>
+  <use href="#leaf" transform="translate(52.4 214.0) rotate(200) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(50.4 232) rotate(190) scale(1.5)"/>
+  <use href="#leaf" transform="translate(49.2 236.0) rotate(-20) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(50.1 254) rotate(-10) scale(1.5)"/>
+  <use href="#leaf" transform="translate(51.3 258.0) rotate(200) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(49.8 276) rotate(190) scale(1.5)"/>
+  <use href="#leaf" transform="translate(48.6 280.0) rotate(-20) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(49.3 298) rotate(-10) scale(1.5)"/>
+  <use href="#leaf" transform="translate(50.5 302.0) rotate(200) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(48.3 320) rotate(190) scale(1.5)"/>
+  <use href="#leaf" transform="translate(47.1 324.0) rotate(-20) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(46.9 342) rotate(-10) scale(1.5)"/>
+  <use href="#leaf" transform="translate(48.1 346.0) rotate(200) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(45.1 364) rotate(190) scale(1.5)"/>
+  <use href="#leaf" transform="translate(43.9 368.0) rotate(-20) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(43.3 386) rotate(-10) scale(1.5)"/>
+  <use href="#leaf" transform="translate(44.5 390.0) rotate(200) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(41.9 408) rotate(190) scale(1.5)"/>
+  <use href="#leaf" transform="translate(40.7 412.0) rotate(-20) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(41.3 430) rotate(-10) scale(1.5)"/>
+  <use href="#leaf" transform="translate(42.5 434.0) rotate(200) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(41.9 452) rotate(190) scale(1.5)"/>
+  <use href="#leaf" transform="translate(40.7 456.0) rotate(-20) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(43.6 474) rotate(-10) scale(1.5)"/>
+  <use href="#leaf" transform="translate(44.8 478.0) rotate(200) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(46.4 496) rotate(190) scale(1.5)"/>
+  <use href="#leaf" transform="translate(45.2 500.0) rotate(-20) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(49.7 518) rotate(-10) scale(1.5)"/>
+  <use href="#leaf" transform="translate(50.9 522.0) rotate(200) scale(1.35)"/>
+  <use href="#leafDark" transform="translate(54.5 36) rotate(140) scale(1.6)"/>
+  <use href="#rose" transform="translate(46.5 30.0) scale(1.9)"/>
+  <use href="#blossom" transform="translate(64.5 46.0) scale(1.1)"/>
+  <use href="#bud" transform="translate(50.5 52.0) rotate(-60) scale(1.3)"/>
+  <use href="#leaf" transform="translate(52.5 22.0) rotate(210) scale(1.4)"/>
+  <use href="#leafDark" transform="translate(58.6 100) rotate(40) scale(1.6)"/>
+  <use href="#creamRose" transform="translate(66.6 94.0) scale(1.9)"/>
+  <use href="#blossom" transform="translate(48.6 110.0) scale(1.1)"/>
+  <use href="#bud" transform="translate(62.6 116.0) rotate(60) scale(1.3)"/>
+  <use href="#leaf" transform="translate(60.6 86.0) rotate(-30) scale(1.4)"/>
+  <use href="#leafDark" transform="translate(54.7 164) rotate(140) scale(1.6)"/>
+  <use href="#blossom" transform="translate(46.7 158.0) scale(1.35)"/>
+  <use href="#blossom" transform="translate(64.7 174.0) scale(1.1)"/>
+  <use href="#bud" transform="translate(50.7 180.0) rotate(-60) scale(1.3)"/>
+  <use href="#leaf" transform="translate(52.7 150.0) rotate(210) scale(1.4)"/>
+  <use href="#leafDark" transform="translate(50.7 228) rotate(40) scale(1.6)"/>
+  <use href="#rose" transform="translate(58.7 222.0) scale(1.9)"/>
+  <use href="#blossom" transform="translate(40.7 238.0) scale(1.1)"/>
+  <use href="#bud" transform="translate(54.7 244.0) rotate(60) scale(1.3)"/>
+  <use href="#leaf" transform="translate(52.7 214.0) rotate(-30) scale(1.4)"/>
+  <use href="#leafDark" transform="translate(49.6 292) rotate(140) scale(1.6)"/>
+  <use href="#blossom" transform="translate(41.6 286.0) scale(1.35)"/>
+  <use href="#blossom" transform="translate(59.6 302.0) scale(1.1)"/>
+  <use href="#bud" transform="translate(45.6 308.0) rotate(-60) scale(1.3)"/>
+  <use href="#leaf" transform="translate(47.6 278.0) rotate(210) scale(1.4)"/>
+  <use href="#leafDark" transform="translate(46.3 356) rotate(40) scale(1.6)"/>
+  <use href="#rose" transform="translate(54.3 350.0) scale(1.9)"/>
+  <use href="#blossom" transform="translate(36.3 366.0) scale(1.1)"/>
+  <use href="#bud" transform="translate(50.3 372.0) rotate(60) scale(1.3)"/>
+  <use href="#leaf" transform="translate(48.3 342.0) rotate(-30) scale(1.4)"/>
+  <use href="#leafDark" transform="translate(41.6 420) rotate(140) scale(1.6)"/>
+  <use href="#creamRose" transform="translate(33.6 414.0) scale(1.9)"/>
+  <use href="#blossom" transform="translate(51.6 430.0) scale(1.1)"/>
+  <use href="#bud" transform="translate(37.6 436.0) rotate(-60) scale(1.3)"/>
+  <use href="#leaf" transform="translate(39.6 406.0) rotate(210) scale(1.4)"/>
+  <use href="#leafDark" transform="translate(44.0 484) rotate(40) scale(1.6)"/>
+  <use href="#blossom" transform="translate(52.0 478.0) scale(1.35)"/>
+  <use href="#blossom" transform="translate(34.0 494.0) scale(1.1)"/>
+  <use href="#bud" transform="translate(48.0 500.0) rotate(60) scale(1.3)"/>
+  <use href="#leaf" transform="translate(46.0 470.0) rotate(-30) scale(1.4)"/>
+</svg>
