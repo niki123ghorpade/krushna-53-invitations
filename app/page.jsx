@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { SiteFooter, SiteHeader, readSavedDetails } from "@/components/ui";
 import HomeWeddingWebsitePromo from "@/components/HomeWeddingWebsitePromo";
 import HomeFAQ from "@/components/HomeFAQ";
-import PlanCards from "@/components/PlanCards";
 import PricingCustomise from "@/components/PricingCustomise";
 import { DEMO_DETAILS } from "@/lib/invite-design";
 
@@ -18,10 +17,8 @@ const features = [
   ["⌁", "Edits until your event date", "Discuss updates to your wedding details as plans come together."],
   ["scratch", "Scratch to reveal the date", "Add a playful scratch-card moment to reveal your celebration date."],
   ["◷", "Live countdown", "Build anticipation with a countdown to your special day."],
-  ["inbox", "Guest messages and inbox", "Discuss guest messages, attendance confirmations and guest counts."],
   ["♫", "Background music", "Set the mood with music and a guest-friendly mute control."],
   ["venue", "Venue with maps", "Help guests find the venue with map and directions details."],
-  ["animations", "Premium animations", "Explore expressive reveals with doors, curtains, sparkles and more."],
   ["upload", "Custom image upload", "Personalise the page with photos and a custom hero background."],
   ["customize", "Full customization", "Shape the page around your events, dress code, sections and story."],
 ];
@@ -29,7 +26,6 @@ const celebrations = ["Wedding", "Engagement", "Haldi", "Mehndi", "Sangeet", "Re
 const invitationComparison = [
   ["Delivery Time", "2–4 weeks", "Instant download"],
   ["Interactive Features", false, true],
-  ["Messaging & Inbox", false, true],
   ["Editable After Sending", false, true],
   ["Background Music", false, true],
   ["Google Maps Integration", false, true],
@@ -61,7 +57,7 @@ export default function Home() {
         <p className="eyebrow landing-hero-eyebrow">INVITATIONS FOR EVERY MOMENT</p>
         <h1>Every ceremony, <em>beautifully invited.</em></h1>
         <p className="landing-hero-copy">Create a wedding invitation that feels like you — from the first card to every celebration in your journey.</p>
-        <div className="landing-hero-actions"><a className="primary" href="/create-my-invitation">Find your design <span aria-hidden="true">→</span></a><a className="landing-secondary" href="/wedding-journey-demo">View live demo <span aria-hidden="true">↗</span></a></div>
+        <div className="landing-hero-actions"><a className="primary" href="/templates">Find your design <span aria-hidden="true">→</span></a><a className="landing-secondary" href="/reels/create">Create your reel <span aria-hidden="true">↗</span></a></div>
         <div className="landing-proof" aria-label="Cards, video reels, wedding journeys, PNG, PDF and MP4 downloads">
           <span className="landing-proof-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="8" cy="9" r="1.5"/><path d="m4 17 5-5 3 3 2-2 6 5"/></svg><span>Cards</span></span>
           <span className="landing-proof-item"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="m10 8 6 4-6 4z"/></svg><span>Video reels</span></span>
@@ -79,7 +75,7 @@ export default function Home() {
           <p className="eyebrow">INVITATIONS FOR EVERY OCCASION</p>
           <h2 id="landing-categories-title">One beautiful invitation for <em>every celebration.</em></h2>
           <p>Choose your occasion to explore designs made for the moments you want to share.</p>
-          <div className="landing-category-pills">{celebrations.map((name) => <a href={`/create-my-invitation?event=${encodeURIComponent(name.toLowerCase())}#finder-results`} key={name}>{name}<span aria-hidden="true">↗</span></a>)}</div>
+          <div className="landing-category-pills">{celebrations.map((name) => <a href={`/templates?event=${encodeURIComponent(name.toLowerCase())}&regional=true`} key={name}>{name}<span aria-hidden="true">↗</span></a>)}</div>
         </div>
       </div>
     </section>
@@ -105,7 +101,7 @@ export default function Home() {
       <div className="landing-compare-scroll"><table className="landing-compare-table"><thead><tr><th scope="col">Feature</th><th scope="col">Paper</th><th scope="col">Digital</th></tr></thead><tbody>{invitationComparison.map(([feature, paper, digital]) => <tr key={feature}><th scope="row">{feature}</th><td>{typeof paper === "boolean" ? <span className={`landing-compare-mark${paper ? " is-yes" : " is-no"}`} aria-label={paper ? "Included" : "Not included"}>{paper ? "✓" : "×"}</span> : paper}</td><td>{typeof digital === "boolean" ? <span className={`landing-compare-mark${digital ? " is-yes" : " is-no"}`} aria-label={digital ? "Included" : "Not included"}>{digital ? "✓" : "×"}</span> : digital}</td></tr>)}</tbody></table></div>
     </section>
 
-    <section className="landing-pricing" id="pricing"><div className="landing-pricing-heading"><div><p className="eyebrow">CLEAR COLLECTIONS</p><h2>Choose your <em>invitation collection.</em></h2><p>Explore the same plans and pricing available on our pricing page.</p></div><a className="landing-text-link" href="/pricing">View pricing page <span aria-hidden="true">→</span></a></div><PlanCards detailed /><PricingCustomise /></section>
+    <section className="landing-pricing landing-custom-only" id="pricing"><PricingCustomise /></section>
 
     <HomeFAQ />
     <HomeWeddingWebsitePromo />

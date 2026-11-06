@@ -36,7 +36,6 @@ const NAV = [
     { href: "/wedding-websites", label: "Wedding websites" },
     { href: "/create", label: "Create my own" },
     { href: "/faq", label: "FAQ" },
-    { href: "/pricing", label: "Pricing" },
 ];
 export function BrandLogo({ size = 28 }) {
     return (<span className="brand-logo">

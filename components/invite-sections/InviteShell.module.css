@@ -1,0 +1,36 @@
+/* EveryMoment brand tokens for invitation pages. Override any of them
+   through the `theme` prop on <InviteShell>. */
+.shell {
+  --inv-bg: #fdf6ec;
+  --inv-bg-alt: #f8ece0;
+  --inv-surface: #ffffff;
+  --inv-ink: #1e1b4b;
+  --inv-muted: #625e7e;
+  --inv-line: #f0d6cd;
+  --inv-accent: #e5503c;
+  --inv-accent-bright: #ff6b57;
+  --inv-accent-soft: #fde7e1;
+  --inv-indigo: #4f46e5;
+  --inv-deep: #1e1b4b;
+  --inv-on-deep: #fdf6ec;
+  --inv-on-deep-muted: #d6d2e8;
+  /* Font fallback is selected per character, so Latin keeps its design font
+     while each Indic script uses a font with complete glyph coverage. */
+  --inv-script: "Great Vibes", "Allura", "Tiro Devanagari Hindi", "Noto Sans Gujarati", "Nirmala UI", cursive;
+  --inv-serif: "Cormorant Garamond", "Playfair Display", "Tiro Devanagari Hindi", "Noto Sans Gujarati", "Nirmala UI", Georgia, serif;
+  --inv-caps: "Cinzel", "Marcellus", "Tiro Devanagari Hindi", "Noto Sans Gujarati", "Nirmala UI", Georgia, serif;
+  --inv-sans: "Poppins", "Avenir Next", "Segoe UI", "Tiro Devanagari Hindi", "Noto Sans Gujarati", "Nirmala UI", system-ui, sans-serif;
+
+  position: relative;
+  min-height: 100vh;
+  background: var(--inv-bg);
+  color: var(--inv-ink);
+  font-family: var(--inv-sans);
+  overflow-x: clip;
+}
+.locked { height: 100vh; overflow: hidden; }
+
+/* Devanagari and Gujarati letters join up, so spaced-out caps would break words apart */
+.shell:lang(hi) *,
+.shell:lang(mr) *,
+.shell:lang(gu) * { letter-spacing: 0 !important; }

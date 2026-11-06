@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import Thumb, { reelThumbJob } from "@/components/Thumb";
 import FilterPanel from "@/components/FilterPanel";
 import PlanNav from "@/components/PlanNav";
-import TemplatePrice from "@/components/TemplatePrice";
 import { reelPlan, validPlan } from "@/lib/plans";
 import { ColorwayDots, SiteFooter, SiteHeader, readSavedDetails } from "@/components/ui";
 import { findDesign, wordingFor } from "@/lib/designs";
@@ -81,7 +80,6 @@ export default function ReelsPage() {
               </button>
               <div className="tpl-meta">
                 <b>{r.kind === "journey" ? r.name : findDesign(r.design)?.name}</b>
-                <TemplatePrice template={r} reel />
                 <small>{r.kind === "journey" ? `${r.journey?.length} functions` : reelTradition(r) === "Pan-Indian" ? EVENT_PRESETS[r.event].label : `${reelTradition(r)} · ${findDesign(r.design)?.wording?.title}`} · {REEL_KINDS[r.kind].label}</small>
                 <p className="hint small">{REEL_KINDS[r.kind].blurb}</p>
               </div>
@@ -104,7 +102,6 @@ export default function ReelsPage() {
             <div className="modal-side">
               <small>{REEL_KINDS[preview.kind].label} · about {seconds(preview)} seconds</small>
               <h2>{preview.kind === "journey" ? preview.name : findDesign(preview.design)?.name}</h2>
-              <TemplatePrice template={preview} reel />
               <p className="hint">{REEL_KINDS[preview.kind].blurb}</p>
               <div className="sub-label">COLOUR OPTIONS</div>
               <ColorwayDots size="lg" colorways={colorOptions(preview)} value={cwOf(preview)} onChange={(i) => setColorways((c) => ({ ...c, [preview.id]: i }))}/>

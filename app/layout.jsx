@@ -17,6 +17,7 @@ import "@fontsource/italiana/400.css";
 import "@fontsource/yatra-one/400.css";
 import "@fontsource/rozha-one/400.css";
 import "@fontsource/tiro-devanagari-hindi/400.css";
+import "@fontsource/noto-sans-gujarati/400.css";
 import "@fontsource/amiri/400.css";
 import "@fontsource/noto-sans-gurmukhi/500.css";
 import "@fontsource/noto-serif-bengali/500.css";

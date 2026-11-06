@@ -429,6 +429,8 @@ button:disabled { opacity: 0.6; cursor: progress; }
 .faq-item[open] summary > span { transform: rotate(45deg); }
 .faq-item summary:focus-visible { outline: 2px solid var(--em-coral); outline-offset: -4px; border-radius: 18px; }
 .faq-item > p { padding: 0 clamp(18px, 3vw, 28px) 22px; }
+.faq-item > .faq-whatsapp { min-height: 40px; margin: 0 clamp(18px, 3vw, 28px) 22px; padding: 10px 16px; border-color: var(--em-navy); background: var(--em-navy); color: var(--em-cream); }
+.faq-item > .faq-whatsapp:hover { border-color: #302c69; background: #302c69; }
 .trust-contact { background: var(--em-navy); border-color: var(--em-navy); color: var(--em-cream); }
 .trust-contact h2 { color: var(--em-cream); }
 .trust-contact p { color: rgba(253, 246, 236, 0.76); margin-bottom: 16px; }
@@ -1018,6 +1020,8 @@ body:has(.full-journey-demo) .support-chat { display: none; }
 .home-final-cta-secondary { border-color: rgba(30,27,75,.28) !important; background: rgba(255,255,255,.6); color: var(--em-navy); }
 .home-final-cta-secondary:hover { background: #fff; box-shadow: 0 8px 20px rgba(30,27,75,.08); }
 .landing-pricing { padding: 84px 24px 12px; background: #f4eee5; scroll-margin-top: 80px; }
+.landing-custom-only { padding: 30px 24px; }
+.landing-custom-only .pricing-customise { margin-bottom: 0; }
 .landing-pricing-heading { max-width: 1144px; margin: 0 auto 34px; display: flex; justify-content: space-between; align-items: end; gap: 24px; }
 .landing-pricing-heading h2 { font-size: clamp(32px, 3.7vw, 46px); }
 .landing-pricing-heading > div > p:last-child { margin: 12px 0 0; color: #716f9c; }
@@ -1092,6 +1096,7 @@ body:has(.full-journey-demo) .support-chat { display: none; }
 .wedding-hero-copy > p:not(.eyebrow) { max-width: 540px; margin: 0; color: var(--w-muted); font-size: 16px; line-height: 1.8; }
 .wedding-hero-link { display: inline-flex; align-items: center; gap: 12px; margin-top: 28px; color: var(--w-ink); font-size: 14px; font-weight: 600; text-decoration: none; border-bottom: 1px solid #c8bdb0; padding-bottom: 8px; }
 .wedding-hero-link span { color: var(--w-coral); }
+.wedding-hero-links { display: flex; flex-wrap: wrap; gap: 4px 28px; }
 .wedding-hero-art { position: relative; display: grid; place-items: center; min-height: 350px; overflow: hidden; border-radius: 48% 48% 44% 44%; background: radial-gradient(ellipse at 52% 45%, #fffdf8 0 34%, transparent 35%), radial-gradient(ellipse at 50% 100%, #ead8c5 0 36%, transparent 37%), #e7e9df; }
 .wedding-hero-orbit { position: absolute; width: 285px; height: 330px; border: 1px solid rgba(89,111,91,.3); border-radius: 50%; transform: rotate(28deg); }
 .orbit-two { width: 330px; height: 285px; transform: rotate(-28deg); }
