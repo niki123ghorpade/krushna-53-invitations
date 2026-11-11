@@ -13,8 +13,9 @@ const bob = { ev: "intoview", trg: 1, loop: true, list: [{}, { my: 5, ti: 600 },
  * RSVP form in a pop-up. fields: [{ name, type: "text" | "radio", options?, hint?, required? }]
  * The reply is POSTed as a form to `endpoint` (Google Apps Script web app, Formspree, …) with one entry
  * per field name plus submitted_at and page. Without an endpoint (a demo) it only shows the thank-you.
+ * theme: CSS variables (colours, fonts) to carry over, since the pop-up sits outside the page.
  */
-export function SgRsvpDialog({ open, onClose, title, note, fields = [], endpoint, submit = "Submit", required = "Required field",
+export function SgRsvpDialog({ open, onClose, title, note, fields = [], endpoint, theme, submit = "Submit", required = "Required field",
   success = "Thank you! Your RSVP has been received.", failure = "Sorry, your RSVP could not be sent. Please try again." }) {
   const [values, setValues] = useState({});
   const [missing, setMissing] = useState([]);
@@ -51,7 +52,7 @@ export function SgRsvpDialog({ open, onClose, title, note, fields = [], endpoint
     }
   };
 
-  return createPortal(<div className={`${g.vars} ${s.backdrop}`} onClick={onClose}>
+  return createPortal(<div className={`${g.vars} ${s.backdrop}`} style={theme} onClick={onClose}>
     <button type="button" className={s.close} onClick={onClose} aria-label="Close dialog window">
       <svg width="23" height="23" viewBox="0 0 23 23" aria-hidden="true"><g fill="#fff"><rect x="10.31" y="-3.69" width="2" height="30" transform="rotate(-45 11.31 11.31)" /><rect x="10.31" y="-3.69" width="2" height="30" transform="rotate(45 11.31 11.31)" /></g></svg>
     </button>

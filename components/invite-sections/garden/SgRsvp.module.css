@@ -75,7 +75,7 @@
   isolation: isolate;
   border: 0;
   border-radius: 20px;
-  background: #5a0f1b;
+  background: var(--sg-button, #5a0f1b);
   color: #f6f1e8;
   font: 400 20px "newtemplate", "Times New Roman", serif;
   cursor: pointer;

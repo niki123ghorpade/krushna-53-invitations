@@ -1,8 +1,8 @@
 import DemoGardenInvitation from "./DemoGardenInvitation";
 
 export const metadata = {
-  title: "Aarav & Meera — Wedding Invitation | EveryMoment",
-  description: "Aarav & Meera are getting married on 14 February 2027 at The Leela Palace, Udaipur.",
+  title: "Kunal & Aanchal — Wedding Invitation | EveryMoment",
+  description: "Kunal & Aanchal are getting married on 23 November 2026 at The Leela Palace, Udaipur.",
 };
 
 export default function WeddingWebsiteGardenDemoPage() {

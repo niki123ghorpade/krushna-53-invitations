@@ -7,7 +7,7 @@ import { cx } from "./shared";
  * Full-screen "tap to open" doors shown before the invitation.
  * onOpen fires on the tap itself, so it can start music (browsers need a user gesture).
  */
-export default function IntroCover({ monogram = "A & M", guestLine = "You're invited", kicker = "THE WEDDING OF", tapLabel = "Tap to open", brand = "EveryMoment", onOpen, onDone }) {
+export default function IntroCover({ monogram = "K & A", guestLine = "You're invited", kicker = "THE WEDDING OF", tapLabel = "Tap to open", brand = "EveryMoment", onOpen, onDone }) {
   const [state, setState] = useState("closed"); // closed → opening → open
   const open = () => {
     if (state !== "closed") return;

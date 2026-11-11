@@ -1,8 +1,7 @@
 "use client";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useState } from "react";
 import { InviteShell, VelvetCurtainIntro, CardInvitation, CreateButton, MusicToggle, useInviteMusic, DemoBar } from "@/components/invite-sections";
-import { useLang } from "@/components/invite-sections/i18n";
-import { demoInvitationFor } from "@/lib/demo-invitation-i18n";
+import { demoInvitation } from "@/lib/demo-invitation";
 
 /** Card-look demo: curtain to open, then the invitation as one linen page, in the chosen language. */
 export default function DemoCardInvitation() {
@@ -15,10 +14,9 @@ export default function DemoCardInvitation() {
   </InviteShell>;
 }
 
-/** Lives inside InviteShell so it can read the picked language and swap the whole sample. */
+/** The selected language is applied to the rendered invitation through Google Translation. */
 function DemoContent({ opened, onOpened, music }) {
-  const { lang } = useLang();
-  const d = useMemo(() => demoInvitationFor(lang), [lang]);
+  const d = demoInvitation;
   return <>
     <VelvetCurtainIntro names={`${d.groom} & ${d.bride}`} onOpen={() => music.play()} onDone={onOpened} />
     {opened && <DemoBar />}
