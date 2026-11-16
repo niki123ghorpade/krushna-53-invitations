@@ -47,6 +47,8 @@ export default function AiReelEditor({ clips, onRemove, loadClip, accessCode, co
   const [sources,setSources]=useState([]), [combined,setCombined]=useState(true), [playing,setPlaying]=useState(true), [muted,setMuted]=useState(true), [position,setPosition]=useState(0);
   const desiredPlaying=useRef(true), pendingSeek=useRef(0), musicPreview=useRef({ctx:null,source:null});
   const [seekRevision,setSeekRevision]=useState(0);
+  // Preview music runs on one steady clock: it restarts only when the viewer seeks, trims, pauses or unmutes, not at every clip change.
+  const [musicSeek,setMusicSeek]=useState(0), musicAt=useRef(null);
   const selectedIndex=Math.min(index,Math.max(0,clips.length-1));
   const mediaKey=clips.map(c=>`${c.videoUrl}:${c.token || ""}`).join("|");
   const selected=clips[selectedIndex], previewUrl=sources[selectedIndex]?.url;
@@ -71,15 +73,15 @@ export default function AiReelEditor({ clips, onRemove, loadClip, accessCode, co
     const state=musicPreview.current;
     if(video.current)video.current.muted=compact || muted;
     if(!compact || !music || muted || !playing || busy || !previewUrl)return;
-    try{if(!state.ctx)state.ctx=new AudioContext();const source=state.ctx.createBufferSource();source.buffer=music;source.loop=true;source.connect(state.ctx.destination);source.start(0,(startOffset+Math.max(0,(video.current?.currentTime || 0)-selectedTrim))%music.duration);state.source=source;void state.ctx.resume().catch(()=>{});return()=>{try{source.stop();source.disconnect();}catch{}if(state.source===source)state.source=null;};}catch{}
-  },[compact,music,muted,playing,busy,selectedIndex,previewUrl,seekRevision,selectedTrim]); // eslint-disable-line react-hooks/exhaustive-deps
+    try{if(!state.ctx)state.ctx=new AudioContext();const source=state.ctx.createBufferSource();source.buffer=music;source.loop=true;source.connect(state.ctx.destination);const at=musicAt.current ?? (startOffset+Math.max(0,(video.current?.currentTime || 0)-selectedTrim));musicAt.current=null;source.start(0,Math.max(0,at)%music.duration);state.source=source;void state.ctx.resume().catch(()=>{});return()=>{try{source.stop();source.disconnect();}catch{}if(state.source===source)state.source=null;};}catch{}
+  },[compact,music,muted,playing,busy,Boolean(previewUrl),musicSeek]); // eslint-disable-line react-hooks/exhaustive-deps
   useEffect(()=>()=>{const state=musicPreview.current;try{state.source?.stop();}catch{}void state.ctx?.close().catch(()=>{});},[]);
   function playback(value){if(value)unlockMusic();desiredPlaying.current=value;setPlaying(value);if(value)video.current?.play().catch(()=>{});else video.current?.pause();}
-  function seekFull(t){setSeekRevision(n=>n+1);let i=0,local=t;while(i<durations.length-1&&local>=durations[i]){local-=durations[i];i++;}pendingSeek.current=local;setPosition(t);if(i===selectedIndex&&video.current)video.current.currentTime=local+(windows[i]?.start || 0);else setIndex(i);}
+  function seekFull(t){setSeekRevision(n=>n+1);musicAt.current=t;setMusicSeek(n=>n+1);let i=0,local=t;while(i<durations.length-1&&local>=durations[i]){local-=durations[i];i++;}pendingSeek.current=local;setPosition(t);if(i===selectedIndex&&video.current)video.current.currentTime=local+(windows[i]?.start || 0);else setIndex(i);}
   function playAll(){setCombined(true);seekFull(0);playback(true);}
   function clipEnded(){if(combined&&selectedIndex<clips.length-1){pendingSeek.current=0;setIndex(selectedIndex+1);}else playback(false);}
   function loadedPreview(){if(video.current){video.current.currentTime=selectedTrim+pendingSeek.current;video.current.muted=compact || muted;setSeekRevision(n=>n+1);if(desiredPlaying.current)video.current.play().catch(()=>{});}}
-  function changeTrim(clip,value){setTrims(list=>({...list,[clip.videoUrl]:value}));if(selected?.videoUrl===clip.videoUrl&&video.current){pendingSeek.current=0;const start=clipWindow(sources[selectedIndex]?.duration || clip.seconds || 15,value).start;video.current.currentTime=start;setPosition(startOffset);setSeekRevision(n=>n+1);}}
+  function changeTrim(clip,value){setTrims(list=>({...list,[clip.videoUrl]:value}));if(selected?.videoUrl===clip.videoUrl&&video.current){pendingSeek.current=0;const start=clipWindow(sources[selectedIndex]?.duration || clip.seconds || 15,value).start;video.current.currentTime=start;setPosition(startOffset);setSeekRevision(n=>n+1);musicAt.current=startOffset;setMusicSeek(n=>n+1);}}
   const stamp=t=>Math.floor(t/60)+":"+String(Math.floor(t%60)).padStart(2,"0");
   const previewControls=<><div className="preview-actions"><button type="button" disabled={busy||!sources.length} onClick={playAll}>▶ Play full reel</button><button type="button" disabled={busy||!sources.length} onClick={()=>playback(!playing)}>{playing?"❚❚ Pause":"▶ Play"}</button><button type="button" onClick={()=>{unlockMusic();setMuted(!muted);if(video.current)video.current.muted=compact || !muted;}}>{muted?"Sound off":"Sound on"}</button></div><label className="hint">{combined?"Combined preview":"Clip preview"} · {stamp(position)} / {stamp(totalDuration)}<input aria-label="Full reel position" type="range" min={0} max={totalDuration} step={0.1} value={Math.min(position,totalDuration)} disabled={busy||!sources.length} onChange={e=>{setCombined(true);seekFull(Number(e.target.value));}} style={{width:"100%"}}/></label></>;
   function paint(v,clip,time=v.currentTime,duration=v.duration) {

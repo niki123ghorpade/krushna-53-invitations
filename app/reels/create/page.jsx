@@ -1,5 +1,6 @@
 "use client";
 import { useEffect, useMemo, useRef, useState } from "react";
+import { parseSongTime, formatSongTime } from "@/lib/song-time.mjs";
 import { createPortal } from "react-dom";
 import ReelCanvas, { useReelInput } from "@/components/ReelCanvas";
 import Thumb, { cardThumbJob } from "@/components/Thumb";
@@ -41,6 +42,8 @@ export default function ReelMaker() {
     const [songOffset, setSongOffset] = useState(0);
     // Optional end of the uploaded song (seconds); the segment then repeats from the start offset for longer reels.
     const [songEnd, setSongEnd] = useState(0);
+    const [songEndText, setSongEndText] = useState("");
+    useEffect(() => { if (parseSongTime(songEndText) !== songEnd) setSongEndText(formatSongTime(songEnd)); }, [songEnd]); // eslint-disable-line react-hooks/exhaustive-deps
     const [music, setMusic] = useState(null);
     const [exporting, setExporting] = useState(null);
     const [exportError, setExportError] = useState("");
@@ -315,7 +318,7 @@ export default function ReelMaker() {
             {musicChoice === "upload" && (<div className="fields two">
                 <label className="field">SONG FILE (MP3/M4A)<input type="file" accept="audio/*" onChange={(e) => setSongFile(e.target.files?.[0] ?? null)}/></label>
                 <label className="field">START FROM (SECONDS)<input type="number" min={0} max={600} value={songOffset} onChange={(e) => setSongOffset(Number(e.target.value) || 0)}/></label>
-                <label className="field">END AT (SECONDS, OPTIONAL)<input type="number" min={0} max={900} step="0.1" value={songEnd || ""} placeholder="e.g. 67 for 1:07" onChange={(e) => setSongEnd(Number(e.target.value) || 0)}/></label>
+                <label className="field">END AT (MIN:SEC, OPTIONAL)<input type="text" inputMode="decimal" value={songEndText} placeholder="e.g. 1:06" onChange={(e) => { setSongEndText(e.target.value); setSongEnd(parseSongTime(e.target.value)); }}/>{songEnd > 0 && <small className="hint">Song plays up to {formatSongTime(songEnd)}, then repeats from the start.</small>}</label>
               </div>)}
             {isAiSource && <p className="hint small">Selected music replaces the original AI video audio in the phone preview and downloaded reel. Tap Sound on to listen. Audio changes use no API credits; Open / save generated MP4 keeps the original provider audio.</p>}
             <p className="hint small">Built-in music is generated in your browser and free to use. Only upload songs you have the rights to share.</p>
