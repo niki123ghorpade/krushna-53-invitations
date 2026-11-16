@@ -8,7 +8,7 @@ import { cx } from "./shared";
  * Same props as IntroCover, so the two can be swapped.
  * Curtain colour: set --inv-curtain / --inv-curtain-dark on a parent.
  */
-export default function CurtainIntro({ monogram = "A & M", guestLine = "You're invited", kicker = "THE WEDDING OF", tapLabel = "Tap to open", brand = "EveryMoment", onOpen, onDone }) {
+export default function CurtainIntro({ monogram = "K & A", guestLine = "You're invited", kicker = "THE WEDDING OF", tapLabel = "Tap to open", brand = "EveryMoment", onOpen, onDone }) {
   const [state, setState] = useState("closed"); // closed → opening → open
   const petals = useMemo(() => Array.from({ length: 22 }, (_, i) => {
     const a = (i / 22) * Math.PI * 2;

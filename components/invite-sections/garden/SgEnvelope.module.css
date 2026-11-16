@@ -64,7 +64,7 @@
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: #5a0f1b;
+  background: var(--sg-button, #5a0f1b);
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   cursor: pointer;
   animation: show 0.3s ease-in-out;

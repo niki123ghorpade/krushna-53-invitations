@@ -1,8 +1,12 @@
 /* Shared type and bits for the Sacred Garden sections (fonts come from ./sacred-fonts.css). */
 /* font and colour tokens (also used by the RSVP pop-up, which renders outside the page) */
 .vars {
-  --sg-gold: #a67d2b;
-  --sg-ink: #6c513f;
+  --sg-gold: #a67d2b; /* headings, names, countdown */
+  --sg-ink: #6c513f; /* body text */
+  --sg-bg: #f9f0e0; /* page */
+  --sg-detail: #8c7666; /* schedule line and markers */
+  --sg-time: #846f61; /* schedule times */
+  --sg-button: #5a0f1b; /* RSVP button */
   --sg-script: "SG Imperial Script", "Tiro Devanagari Hindi", "Nirmala UI", cursive;
   --sg-names: "SG Beau Rivage", "Tiro Devanagari Hindi", "Nirmala UI", cursive;
   --sg-serif: "SG GT Super Display", "Tiro Devanagari Hindi", "Nirmala UI", Georgia, serif;
@@ -11,7 +15,7 @@
 }
 .page {
   position: relative;
-  background: #f9f0e0;
+  background: var(--sg-bg);
   color: var(--sg-ink);
   overflow-x: clip;
 }
@@ -20,7 +24,7 @@
 /* gold script headings */
 .title { font-family: var(--sg-script); font-weight: 400; font-size: 41px; line-height: 1.55; color: var(--sg-gold); }
 /* light serif body copy */
-.body { font-family: var(--sg-serif); font-weight: 400; font-size: 21px; line-height: 1.25; color: var(--sg-ink); }
+.body { font-family: var(--sg-serif); font-weight: 400; font-style: var(--sg-body-style, normal); font-size: 21px; line-height: 1.25; color: var(--sg-ink); }
 .num { font-family: var(--sg-num); font-weight: 400; }
 /* centre the content of a fixed box */
 .fill { display: flex; align-items: center; justify-content: center; }

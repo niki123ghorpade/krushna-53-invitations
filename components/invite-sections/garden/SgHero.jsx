@@ -33,7 +33,7 @@ export default function SgHero({ id = "sg-hero", first, second, date, weddingDay
     <El x={-147} y={753} w={744} h={487} m={{ y: 763 }}><img className={g.stretch} src={SG_ART.paperHero} alt="" /></El>
     <El x={-55} y={294} w={560} h={168} appear={rise}><h1 className={`${g.text} ${s.names}`}>{first}{"\n\n"}{second}</h1></El>
     <El x={-55} y={154} w={560} h={37} appear={rise}><p className={`${g.text} ${s.day}`}>{weddingDay}</p></El>
-    <El x={-55} y={196} w={560} h={37} appear={rise}><p className={`${g.text} ${g.num} ${s.date}`}>{date}</p></El>
+    <El x={-55} y={196} w={560} h={37} appear={rise}><p data-no-translate className={`${g.text} ${g.num} ${s.date}`}>{date}</p></El>
     <El x={203} y={356} w={55} h={44} appear={rise}><p className={`${g.text} ${s.amp}`} aria-hidden="true">&amp;</p></El>
     <El x={-16} y={566} w={224} h={343} m={{ x: -12, y: 568, w: 218, h: 334 }} steps={swayL}><img src={bouquets[0]} alt="" /></El>
     <El x={230} y={547} w={236} h={359} m={{ x: 263, y: 586, w: 210, h: 319 }} steps={swayR}><img src={bouquets[1]} alt="" /></El>

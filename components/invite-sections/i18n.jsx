@@ -3,7 +3,7 @@ import { createContext, useContext, useEffect, useRef, useState } from "react";
 import s from "./i18n.module.css";
 import { LANGS, STRINGS } from "./i18n-strings";
 
-const LangCtx = createContext({ lang: "en", setLang: () => {} });
+const LangCtx = createContext({ lang: "en", setLang: () => {}, languages: LANGS });
 export const LangProvider = LangCtx.Provider;
 
 export function useLang() {
@@ -18,7 +18,7 @@ export function useT() {
 
 /** Compact globe button; tapping it opens the language list above it. */
 export function LangSwitch() {
-  const { lang, setLang } = useLang();
+  const { lang, setLang, languages = LANGS } = useLang();
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
@@ -35,10 +35,10 @@ export function LangSwitch() {
     };
   }, [open]);
 
-  const current = LANGS.find((l) => l.id === lang) ?? LANGS[0];
-  return <div ref={ref} className={s.wrap}>
+  const current = languages.find((l) => l.id === lang) ?? LANGS.find((l) => l.id === lang) ?? LANGS[0];
+  return <div ref={ref} className={s.wrap} data-no-translate>
     <div className={`${s.menu} ${open ? s.open : ""}`} role="menu" aria-label="Language">
-      {LANGS.map((l) => <button key={l.id} type="button" role="menuitemradio" aria-checked={lang === l.id} tabIndex={open ? 0 : -1}
+      {languages.map((l) => <button key={l.id} type="button" role="menuitemradio" aria-checked={lang === l.id} tabIndex={open ? 0 : -1}
         className={`${s.item} ${lang === l.id ? s.on : ""}`} onClick={() => { setLang(l.id); setOpen(false); }}>{l.label}</button>)}
     </div>
     <button type="button" className={s.toggle} aria-haspopup="menu" aria-expanded={open} aria-label={`Language: ${current.label}`} onClick={() => setOpen((o) => !o)}>

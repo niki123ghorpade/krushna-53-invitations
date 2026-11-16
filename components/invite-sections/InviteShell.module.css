@@ -15,10 +15,10 @@
   --inv-on-deep: #fdf6ec;
   --inv-on-deep-muted: #d6d2e8;
   /* Devanagari (Hindi, Marathi) and Gujarati glyphs fall back to these fonts */
-  --inv-script: "Great Vibes", "Allura", "Tiro Devanagari Hindi", "Nirmala UI", "Noto Sans Gujarati", cursive;
-  --inv-serif: "Cormorant Garamond", "Playfair Display", "Tiro Devanagari Hindi", "Nirmala UI", "Noto Sans Gujarati", Georgia, serif;
-  --inv-caps: "Cinzel", "Marcellus", "Tiro Devanagari Hindi", "Nirmala UI", "Noto Sans Gujarati", Georgia, serif;
-  --inv-sans: "Poppins", "Avenir Next", "Segoe UI", "Tiro Devanagari Hindi", "Nirmala UI", "Noto Sans Gujarati", system-ui, sans-serif;
+  --inv-script: "Great Vibes", "Allura", "Tiro Devanagari Hindi", "Nirmala UI", "Noto Sans Bengali", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Kannada", "Noto Sans Malayalam", "Noto Sans Gurmukhi", "Noto Sans Gujarati", cursive;
+  --inv-serif: "Cormorant Garamond", "Playfair Display", "Tiro Devanagari Hindi", "Nirmala UI", "Noto Sans Bengali", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Kannada", "Noto Sans Malayalam", "Noto Sans Gurmukhi", "Noto Sans Gujarati", Georgia, serif;
+  --inv-caps: "Cinzel", "Marcellus", "Tiro Devanagari Hindi", "Nirmala UI", "Noto Sans Bengali", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Kannada", "Noto Sans Malayalam", "Noto Sans Gurmukhi", "Noto Sans Gujarati", Georgia, serif;
+  --inv-sans: "Poppins", "Avenir Next", "Segoe UI", "Tiro Devanagari Hindi", "Nirmala UI", "Noto Sans Bengali", "Noto Sans Tamil", "Noto Sans Telugu", "Noto Sans Kannada", "Noto Sans Malayalam", "Noto Sans Gurmukhi", "Noto Sans Gujarati", system-ui, sans-serif;
 
   position: relative;
   min-height: 100vh;
@@ -32,4 +32,10 @@
 /* Devanagari and Gujarati letters join up, so spaced-out caps would break words apart */
 .shell:lang(hi) *,
 .shell:lang(mr) *,
-.shell:lang(gu) * { letter-spacing: 0 !important; }
+.shell:lang(gu) *,
+.shell:lang(bn) *,
+.shell:lang(ta) *,
+.shell:lang(te) *,
+.shell:lang(kn) *,
+.shell:lang(ml) *,
+.shell:lang(pa) * { letter-spacing: 0 !important; }

@@ -19,7 +19,7 @@ export const SG_ART = {
   ornamentBottom: `${A}ornament-bottom.webp`,
   mapFrame: `${A}map-frame.svg`,
   waxSeal: `${A}wax-seal.webp`,
-  venue: `${A}venue.webp`,
+  venue: `${A}venue-hotel.svg`,
   couple: `${A}couple.webp`,
   petals: [1, 2, 3, 4, 5, 6].map((n) => `${A}petal-${n}.webp`),
 };

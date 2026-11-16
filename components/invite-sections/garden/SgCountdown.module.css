@@ -7,7 +7,9 @@
   font-size: 45px;
   line-height: 1.2;
   white-space: nowrap;
-  background: linear-gradient(105deg, #b48c3d 0%, #b48c3d 25%, #cda95a 46%, #d8ba72 52%, #cda95a 58%, #b48c3d 75%, #b48c3d 100%);
+  --c: color-mix(in srgb, var(--sg-gold) 85%, #fff);
+  --shine: color-mix(in srgb, var(--sg-gold) 55%, #fff);
+  background: linear-gradient(105deg, var(--c) 0%, var(--c) 25%, color-mix(in srgb, var(--sg-gold) 70%, #fff) 46%, var(--shine) 52%, color-mix(in srgb, var(--sg-gold) 70%, #fff) 58%, var(--c) 75%, var(--c) 100%);
   background-size: 300% 100%;
   -webkit-background-clip: text;
   background-clip: text;
@@ -22,9 +24,9 @@
 .out { transform: translateY(-60%); opacity: 0; }
 .in { transform: translateY(60%); opacity: 0; transition: none; }
 
-.label { display: block; margin-top: 8px; font-size: 19px; color: #b48c3d; opacity: 0; transition: opacity 0.8s ease; }
+.label { display: block; margin-top: 8px; font-size: 19px; color: color-mix(in srgb, var(--sg-gold) 85%, #fff); opacity: 0; transition: opacity 0.8s ease; }
 .seen .label { opacity: 0.85; transition-delay: calc(0.9s + var(--i) * 0.18s); }
-.sep { margin-top: -40px; font-size: 52px; line-height: 1; color: #b48c3d; opacity: 0; transition: opacity 0.6s ease; }
+.sep { margin-top: -40px; font-size: 52px; line-height: 1; color: color-mix(in srgb, var(--sg-gold) 85%, #fff); opacity: 0; transition: opacity 0.6s ease; }
 .seen .sep { opacity: 0.9; transition-delay: calc(0.07s + var(--i) * 0.18s); }
 
 @media (prefers-reduced-motion: reduce) {

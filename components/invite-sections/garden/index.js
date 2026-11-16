@@ -10,5 +10,5 @@ export { default as SgDressGift } from "./SgDressGift";
 export { default as SgRsvp, SgRsvpDialog } from "./SgRsvp";
 export { default as SgClosing } from "./SgClosing";
 export { default as SgEnvelope } from "./SgEnvelope";
-export { default as SacredGardenInvitation } from "./SacredGardenInvitation";
+export { default as SacredGardenInvitation, gardenTheme } from "./SacredGardenInvitation";
 export { SG_ART } from "./assets";

@@ -1,10 +1,10 @@
 /* Full-width band with a 450px design column in the middle; pieces sit at exact spots in it. */
-.rec { background: var(--bg, #f9f0e0); }
+.rec { background: var(--bg, var(--sg-bg, #f9f0e0)); }
 .board {
   position: relative;
   overflow: hidden;
   height: var(--h);
-  background: var(--bg, #f9f0e0);
+  background: var(--bg, var(--sg-bg, #f9f0e0));
 }
 .col {
   position: absolute;
